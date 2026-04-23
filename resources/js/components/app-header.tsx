@@ -161,9 +161,9 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                                 'px-4 py-2 rounded-lg font-medium transition-all duration-200 text-white',
                                                 whenCurrentUrl(
                                                     item.href,
-                                                    'bg-white/10 text-gold shadow-inner',
+                                                    'bg-white/10 text-cyan-400 shadow-inner',
                                                 ),
-                                                'hover:bg-gold/10 hover:text-gold focus-visible:ring-2 focus-visible:ring-gold',
+                                                'hover:bg-cyan-400/10 hover:text-cyan-300 focus-visible:ring-2 focus-visible:ring-cyan-400',
                                             )}
                                         >
                                             {item.icon && (
@@ -172,7 +172,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                             {item.title}
                                         </Link>
                                         {isCurrentUrl(item.href) && (
-                                            <div className="absolute bottom-0 left-2 right-2 h-1 rounded bg-gold"></div>
+                                            <div className="absolute bottom-0 left-2 right-2 h-1 rounded bg-cyan-400"></div>
                                         )}
                                     </NavigationMenuItem>
                                 ))}
@@ -187,7 +187,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 href="https://www.youtube.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-gold/10 transition"
+                                className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-cyan-400/10 transition"
                                 aria-label="YouTube"
                             >
                                 <Youtube className="size-6 text-red-600 group-hover:scale-110 transition-transform" />
@@ -196,7 +196,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 href="https://www.facebook.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-gold/10 transition"
+                                className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-cyan-400/10 transition"
                                 aria-label="Facebook"
                             >
                                 <Facebook className="size-6 text-blue-600 group-hover:scale-110 transition-transform" />
@@ -205,7 +205,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 href="https://www.linkedin.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-gold/10 transition"
+                                className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-cyan-400/10 transition"
                                 aria-label="LinkedIn"
                             >
                                 <Linkedin className="size-6 text-blue-800 group-hover:scale-110 transition-transform" />

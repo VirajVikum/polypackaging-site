@@ -1,3 +1,44 @@
+@keyframes border-move {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+.modern-glass {
+    position: relative;
+    border-radius: 1.5rem;
+    background: rgba(10, 35, 66, 0.7);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+    backdrop-filter: blur(12px);
+    border: 2px solid transparent;
+    overflow: hidden;
+}
+.modern-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 0;
+    z-index: 0;
+    background: linear-gradient(270deg, #06b6d4, #22d3ee, #06b6d4, #22d3ee, #06b6d4);
+    background-size: 200% 200%;
+    animation: border-move 3s linear infinite;
+    mask:
+        linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+.modern-glass > * {
+    position: relative;
+    z-index: 1;
+}
+.modern-glass:hover::before {
+    animation-duration: 1.2s;
+}
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
@@ -63,70 +104,70 @@
 
 :root {
     /* Main theme colors: dark blue, black, white, gold */
-    --background: #ffffff;
-    --foreground: #0a0a0a;
-    --card: #ffffff;
-    --card-foreground: #0a0a0a;
-    --popover: #ffffff;
-    --popover-foreground: #0a0a0a;
+    --background: #000000;
+    --foreground: #ffffff;
+    --card: #000000;
+    --card-foreground: #ffffff;
+    --popover: #000000;
+    --popover-foreground: #ffffff;
     --primary: #0a2342; /* dark blue */
     --primary-foreground: #fffbe6; /* gold-tinted white */
-    --secondary: #ffd700; /* gold */
+    --secondary: #06b6d4; /* cyan */
     --secondary-foreground: #0a2342;
     --muted: #e5e7eb;
     --muted-foreground: #374151;
     --accent: #0a2342;
-    --accent-foreground: #ffd700;
+    --accent-foreground: #06b6d4;
     --destructive: #b91c1c;
     --destructive-foreground: #fffbe6;
     --border: #0a2342;
     --input: #0a2342;
-    --ring: #ffd700;
+    --ring: #06b6d4;
     --chart-1: #0a2342;
-    --chart-2: #ffd700;
+    --chart-2: #06b6d4;
     --chart-3: #000000;
     --chart-4: #ffffff;
-    --chart-5: #bfa76f;
+    --chart-5: #0891b2;
     --radius: 0.625rem;
     --sidebar: #0a2342;
     --sidebar-foreground: #fffbe6;
-    --sidebar-primary: #ffd700;
+    --sidebar-primary: #06b6d4;
     --sidebar-primary-foreground: #0a2342;
-    --sidebar-accent: #bfa76f;
+    --sidebar-accent: #0891b2;
     --sidebar-accent-foreground: #0a2342;
-    --sidebar-border: #bfa76f;
-    --sidebar-ring: #ffd700;
+    --sidebar-border: #0891b2;
+    --sidebar-ring: #06b6d4;
 }
 /* Dark mode overrides */
 .dark {
     --background: #0a0a0a;
-    --foreground: #fffbe6;
-    --card: #0a0a0a;
-    --card-foreground: #ffd700;
-    --popover: #0a0a0a;
-    --popover-foreground: #ffd700;
-    --primary: #0a2342;
-    --primary-foreground: #ffd700;
-    --secondary: #ffd700;
+    --card-foreground: #06b6d4;
+    --popover-foreground: #06b6d4;
+    --primary-foreground: #06b6d4;
+    --secondary: #06b6d4;
     --secondary-foreground: #0a2342;
     --muted: #1e293b;
-    --muted-foreground: #ffd700;
-    --accent: #bfa76f;
+    --muted-foreground: #06b6d4;
+    --accent: #0891b2;
     --accent-foreground: #0a2342;
     --destructive: #b91c1c;
     --destructive-foreground: #fffbe6;
-    --border: #ffd700;
-    --input: #ffd700;
-    --ring: #ffd700;
+    --border: #06b6d4;
+    --input: #06b6d4;
+    --ring: #06b6d4;
     --chart-1: #0a2342;
-    --chart-2: #ffd700;
+    --chart-2: #06b6d4;
     --chart-3: #000000;
     --chart-4: #ffffff;
-    --chart-5: #bfa76f;
+    --chart-5: #0891b2;
     --sidebar: #0a2342;
-    --sidebar-foreground: #ffd700;
-    --sidebar-primary: #ffd700;
+    --sidebar-foreground: #06b6d4;
+    --sidebar-primary: #06b6d4;
     --sidebar-primary-foreground: #0a2342;
+    --sidebar-accent: #0891b2;
+    --sidebar-accent-foreground: #0a2342;
+    --sidebar-border: #06b6d4;
+    --sidebar-ring: #06b6d4;
     --sidebar-accent: #bfa76f;
     --sidebar-accent-foreground: #0a2342;
     --sidebar-border: #ffd700;
