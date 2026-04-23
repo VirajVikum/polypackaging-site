@@ -73,8 +73,8 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
 
     return (
         <>
-            <div className="border-b border-sidebar-border/80 w-full bg-[var(--primary)]">
-                <div className="flex h-16 items-center w-full p-0 m-0 bg-[var(--primary)]">
+            <div className="sticky top-0 z-40 w-full bg-[var(--primary)] border-b border-sidebar-border/80 shadow-lg">
+                <div className="flex h-20 items-center w-full px-4 md:px-8">
                     {/* Mobile Menu */}
                     <div className="lg:hidden">
                         <Sheet>
@@ -139,15 +139,17 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                     <Link
                         href="/"
                         prefetch
-                        className="flex items-center space-x-2"
+                        className="flex items-center space-x-2 group"
+                        aria-label="Home"
                     >
                         <AppLogo />
+                        <span className="sr-only">Home</span>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <div className="ml-6 hidden h-full items-center space-x-6 lg:flex">
+                    <div className="ml-6 hidden h-full items-center space-x-2 lg:flex">
                         <NavigationMenu className="flex h-full items-stretch">
-                            <NavigationMenuList className="flex h-full items-stretch space-x-2">
+                            <NavigationMenuList className="flex h-full items-stretch space-x-1">
                                 {mainNavItems.map((item, index) => (
                                     <NavigationMenuItem
                                         key={index}
@@ -156,12 +158,12 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                         <Link
                                             href={item.href}
                                             className={cn(
-                                                navigationMenuTriggerStyle(),
+                                                'px-4 py-2 rounded-lg font-medium transition-all duration-200 text-white',
                                                 whenCurrentUrl(
                                                     item.href,
-                                                    activeItemStyles,
+                                                    'bg-white/10 text-gold shadow-inner',
                                                 ),
-                                                'h-9 cursor-pointer px-3',
+                                                'hover:bg-gold/10 hover:text-gold focus-visible:ring-2 focus-visible:ring-gold',
                                             )}
                                         >
                                             {item.icon && (
@@ -170,7 +172,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                             {item.title}
                                         </Link>
                                         {isCurrentUrl(item.href) && (
-                                            <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"></div>
+                                            <div className="absolute bottom-0 left-2 right-2 h-1 rounded bg-gold"></div>
                                         )}
                                     </NavigationMenuItem>
                                 ))}
@@ -185,28 +187,28 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 href="https://www.youtube.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group h-9 w-9 flex items-center justify-center rounded-md hover:bg-accent"
+                                className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-gold/10 transition"
                                 aria-label="YouTube"
                             >
-                                <Youtube className="size-5 text-red-600 group-hover:opacity-80" />
+                                <Youtube className="size-6 text-red-600 group-hover:scale-110 transition-transform" />
                             </a>
                             <a
                                 href="https://www.facebook.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group h-9 w-9 flex items-center justify-center rounded-md hover:bg-accent"
+                                className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-gold/10 transition"
                                 aria-label="Facebook"
                             >
-                                <Facebook className="size-5 text-blue-600 group-hover:opacity-80" />
+                                <Facebook className="size-6 text-blue-600 group-hover:scale-110 transition-transform" />
                             </a>
                             <a
                                 href="https://www.linkedin.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group h-9 w-9 flex items-center justify-center rounded-md hover:bg-accent"
+                                className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-gold/10 transition"
                                 aria-label="LinkedIn"
                             >
-                                <Linkedin className="size-5 text-blue-800 group-hover:opacity-80" />
+                                <Linkedin className="size-6 text-blue-800 group-hover:scale-110 transition-transform" />
                             </a>
                             <div className="ml-1 hidden gap-1 lg:flex">
                                 {rightNavItems.map((item) => (
