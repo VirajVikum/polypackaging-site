@@ -3,6 +3,7 @@ import { RichTypewriter } from '@/components/RichTypewriter';
 import { findHighlightRanges } from '@/components/findHighlightRanges';
 import { MainSlider } from '@/components/main-slider';
 import { ProductSlider } from '@/components/ProductSlider';
+import { WhyChooseUsParagraph } from '@/components/WhyChooseUsParagraph';
 
 export default function Home() {
   return (
@@ -122,10 +123,12 @@ export default function Home() {
         />
       </section>
 
-      {/* Section 4: Technology / Why Choose Us */}
-      <section className="py-12 text-center border-b bg-(--card) text-(--card-foreground)">
-        <h2 className="text-2xl font-bold mb-2 text-(--secondary)">Why Choose Us</h2>
-        <p className="max-w-2xl mx-auto text-(--muted-foreground)">Highlight your technology, quality, or unique selling points here.</p>
+      {/* Section 4: Why Choose Us (Paragraph with Show More) */}
+      <section className="py-16 border-b bg-(--card) text-(--card-foreground)">
+        <h2 className="text-4xl md:text-5xl font-extrabold mb-8 text-(--secondary) font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
+          Why Choose Us
+        </h2>
+        <WhyChooseUsParagraph />
       </section>
 
       {/* Section 5: Testimonials */}
