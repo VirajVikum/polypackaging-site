@@ -1,4 +1,5 @@
 import { TestimonialCarousel } from '@/components/TestimonialCarousel';
+import { ClientRibbon } from '@/components/ClientRibbon';
 import React from 'react';
 import { RichTypewriter } from '@/components/RichTypewriter';
 import { findHighlightRanges } from '@/components/findHighlightRanges';
@@ -140,14 +141,10 @@ export default function Home() {
         <TestimonialCarousel />
       </section>
 
-      {/* Section 6: Clients Slider */}
+      {/* Section 6: Clients Ribbon */}
       <section className="py-12 text-center border-b bg-(--card) text-(--card-foreground)">
         <h2 className="text-2xl font-bold mb-6 text-(--secondary)">Our Clients</h2>
-        <div className="flex justify-center gap-8">
-          <div className="w-24 h-12 bg-(--muted) rounded shadow flex items-center justify-center border border-(--gold,#ffd700) text-(--foreground)">Logo 1</div>
-          <div className="w-24 h-12 bg-(--muted) rounded shadow flex items-center justify-center border border-(--gold,#ffd700) text-(--foreground)">Logo 2</div>
-          <div className="w-24 h-12 bg-(--muted) rounded shadow flex items-center justify-center border border-(--gold,#ffd700) text-(--foreground)">Logo 3</div>
-        </div>
+        <ClientRibbon />
       </section>
 
       {/* Bottom Section: Contact Us */}
