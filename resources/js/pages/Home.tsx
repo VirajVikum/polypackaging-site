@@ -1,3 +1,4 @@
+import { TestimonialCarousel } from '@/components/TestimonialCarousel';
 import React from 'react';
 import { RichTypewriter } from '@/components/RichTypewriter';
 import { findHighlightRanges } from '@/components/findHighlightRanges';
@@ -132,9 +133,11 @@ export default function Home() {
       </section>
 
       {/* Section 5: Testimonials */}
-      <section className="py-12 text-center border-b bg-(--background)">
-        <h2 className="text-2xl font-bold mb-2 text-(--secondary)">Testimonials</h2>
-        <p className="max-w-2xl mx-auto text-(--muted-foreground)">"Great service!" - Customer Name</p>
+      <section className="py-16 border-b bg-(--card) text-(--card-foreground)">
+        <h2 className="text-4xl md:text-5xl font-extrabold mb-12 text-cyan-400 font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
+          Testimonials
+        </h2>
+        <TestimonialCarousel />
       </section>
 
       {/* Section 6: Clients Slider */}
