@@ -12,7 +12,7 @@ export default function Home() {
     <div className="min-h-screen w-full flex flex-col bg-(--background) text-(--foreground) overflow-x-hidden">
 
       {/* Section 1: Main Slider */}
-      <section className="border-b">
+      <section className="border-b px-2 sm:px-4 md:px-0">
         <MainSlider
           images={[
             {
@@ -45,12 +45,12 @@ export default function Home() {
       </section>
 
       {/* Section 2: Who We Are */}
-      <section className="py-16 flex justify-center border-b bg-(--card)">
-        <div className="modern-glass max-w-6xl w-full px-10 py-12 flex flex-col items-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-(--secondary) font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg">
+      <section className="py-10 sm:py-14 md:py-16 flex justify-center border-b bg-(--card) px-2 sm:px-4 md:px-0">
+        <div className="modern-glass max-w-6xl w-full px-2 sm:px-6 md:px-10 py-8 sm:py-10 md:py-12 flex flex-col items-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-(--secondary) font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
             Who We Are
           </h2>
-          <p className="text-lg md:text-xl font-medium text-center text-white/90 font-[Inter,sans-serif] leading-relaxed drop-shadow max-w-2xl">
+          <p className="text-base sm:text-lg md:text-xl font-medium text-center text-white/90 font-[Inter,sans-serif] leading-relaxed drop-shadow max-w-2xl">
             {(() => {
               const text = "With over 30 years of experience, Polypackaging Industries (Pvt) Ltd is the leading flexible packaging manufacturer in Sri Lanka's North Western Province, specializing in high-quality Roto Gravure and Flexographic printing. As an ISO 22000:2005 certified company, we provide innovative, food-safe, and cost-effective packaging solutions designed to enhance product protection and market appeal. We are committed to social responsibility and exceptional service, offering expert consultation and eco-friendly recycling initiatives to support our clients and the environment.";
               const highlights = findHighlightRanges(
@@ -81,8 +81,8 @@ export default function Home() {
       </section>
 
       {/* Section 3: Product Slider */}
-      <section className="py-12 border-b bg-(--background)">
-        <h2 className="text-2xl font-bold mb-6 text-center text-(--secondary)">Our Products</h2>
+      <section className="py-8 sm:py-10 md:py-12 border-b bg-(--background) px-2 sm:px-4 md:px-0">
+        <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center text-(--secondary)">Our Products</h2>
         {/* ProductSlider carousel */}
         <ProductSlider
           products={[
@@ -126,31 +126,31 @@ export default function Home() {
       </section>
 
       {/* Section 4: Why Choose Us (Paragraph with Show More) */}
-      <section className="py-16 border-b bg-(--card) text-(--card-foreground)">
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-8 text-(--secondary) font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
+      <section className="py-10 sm:py-14 md:py-16 border-b bg-(--card) text-(--card-foreground) px-2 sm:px-4 md:px-0">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-8 text-(--secondary) font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
           Why Choose Us
         </h2>
         <WhyChooseUsParagraph />
       </section>
 
       {/* Section 5: Testimonials */}
-      <section className="py-16 border-b bg-(--card) text-(--card-foreground)">
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-12 text-cyan-400 font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
+      <section className="py-10 sm:py-14 md:py-16 border-b bg-(--card) text-(--card-foreground) px-2 sm:px-4 md:px-0">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-10 md:mb-12 text-cyan-400 font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
           Testimonials
         </h2>
         <TestimonialCarousel />
       </section>
 
       {/* Section 6: Clients Ribbon */}
-      <section className="py-12 text-center border-b bg-(--card) text-(--card-foreground)">
-        <h2 className="text-2xl font-bold mb-6 text-(--secondary)">Our Clients</h2>
+      <section className="py-8 sm:py-10 md:py-12 text-center border-b bg-(--card) text-(--card-foreground) px-2 sm:px-4 md:px-0">
+        <h2 className="text-xl sm:text-2xl font-bold mb-6 text-(--secondary)">Our Clients</h2>
         <ClientRibbon />
       </section>
 
       {/* Bottom Section: Contact Us */}
-      <footer className="py-12 text-center mt-auto border-t bg-(--primary) text-(--primary-foreground) w-full">
-        <h2 className="text-2xl font-bold mb-2 text-(--secondary)">Contact Us</h2>
-        <p className="max-w-2xl mx-auto">Email: info@example.com | Phone: 123-456-7890</p>
+      <footer className="py-8 sm:py-10 md:py-12 text-center mt-auto border-t bg-(--primary) text-(--primary-foreground) w-full px-2 sm:px-4 md:px-0">
+        <h2 className="text-xl sm:text-2xl font-bold mb-2 text-(--secondary)">Contact Us</h2>
+        <p className="max-w-2xl mx-auto text-sm sm:text-base">Email: info@example.com | Phone: 123-456-7890</p>
       </footer>
     </div>
   );

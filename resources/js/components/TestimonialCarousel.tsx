@@ -41,6 +41,14 @@ const testimonials = [
 export const TestimonialCarousel: React.FC = () => {
   const [start, setStart] = React.useState(0);
   const [anim, setAnim] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Animate every 4s
   React.useEffect(() => {
@@ -54,7 +62,28 @@ export const TestimonialCarousel: React.FC = () => {
     return () => clearTimeout(timer);
   }, [start]);
 
-  // Get 4: left (fading out), center, right, and incoming (hidden unless animating)
+  if (isMobile) {
+    // Show only one testimonial at a time, stacked vertically
+    return (
+      <div className="relative flex flex-col items-center w-full px-2">
+        <div className="w-full max-w-xs mx-auto">
+          <TestimonialCard t={testimonials[start]} />
+        </div>
+        <div className="flex justify-center gap-2 mt-4">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              className={`w-2.5 h-2.5 rounded-full ${i === start ? 'bg-cyan-400' : 'bg-gray-400/40'} transition`}
+              onClick={() => setStart(i)}
+              aria-label={`Go to testimonial ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop: 3-at-a-time animated carousel
   const indices = [0, 1, 2].map(i => (start + i) % testimonials.length);
   const incomingIdx = (start + 3) % testimonials.length;
 

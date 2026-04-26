@@ -11,7 +11,15 @@ interface ProductSliderProps {
 }
 
 export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
-  const visibleCount = 4;
+  // Responsive visible count
+  const getVisibleCount = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth < 640) return 1; // mobile
+      if (window.innerWidth < 1024) return 2; // tablet
+    }
+    return 4; // desktop
+  };
+  const [visibleCount, setVisibleCount] = React.useState(getVisibleCount());
   const total = products.length;
   const [start, setStart] = React.useState(0);
   const [isSliding, setIsSliding] = React.useState(false);
@@ -20,13 +28,14 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [cardWidth, setCardWidth] = React.useState(0);
 
-  // Measure card width on mount and resize
+  // Measure card width and update visibleCount on mount and resize
   React.useEffect(() => {
     function measure() {
+      setVisibleCount(getVisibleCount());
       if (containerRef.current) {
         const firstCard = containerRef.current.querySelector('.product-card');
         if (firstCard) {
-          setCardWidth((firstCard as HTMLElement).offsetWidth + 32); // 32px gap-8
+          setCardWidth((firstCard as HTMLElement).offsetWidth + 16); // 16px gap-4 for mobile
         }
       }
     }
@@ -110,30 +119,33 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
         </button>
       </div>
       <div className="relative flex-1 overflow-hidden">
-        <div ref={containerRef} className="flex items-stretch gap-8" style={slideStyle}>
+        <div ref={containerRef} className="flex items-stretch gap-4 sm:gap-6 md:gap-8 overflow-x-auto scrollbar-hide justify-center sm:justify-start" style={slideStyle}>
           {windowItems.map((product, idx) => (
             <div
               key={product.title + idx + start}
               className={
                 "product-card bg-(--primary) text-(--primary-foreground) rounded-2xl shadow-lg border-2 border-(--secondary,#06b6d4) flex flex-col items-stretch p-0 group transition-transform hover:-translate-y-1 overflow-hidden" +
-                (idx === visibleCount ? " pointer-events-none opacity-0 select-none w-0 min-w-0 max-w-0 p-0 m-0" : " w-1/4 min-w-0")
+                (idx === visibleCount ? " pointer-events-none opacity-0 select-none w-0 min-w-0 max-w-0 p-0 m-0" :
+                  visibleCount === 1 ? " w-72 min-w-[16rem] max-w-xs" :
+                  visibleCount === 2 ? " w-1/2 min-w-[12rem] max-w-sm" :
+                  " w-1/4 min-w-[10rem]")
               }
-              style={{ height: '340px', minHeight: '340px', maxHeight: '340px' }}
+              style={{ height: '340px', minHeight: '300px', maxHeight: '380px' }}
             >
               <div style={{ height: '50%', minHeight: '50%', maxHeight: '50%' }} className="w-full flex items-center justify-center overflow-hidden">
                 <img src={product.image} alt={product.title} className="w-full h-full object-cover mb-0 shadow" style={{ objectFit: 'cover', height: '100%' }} />
               </div>
-              <div className="flex-1 flex flex-col items-center pb-5 pt-5 px-5 min-h-0" style={{ height: '50%', minHeight: 0, overflow: 'visible' }}>
+              <div className="flex-1 flex flex-col items-center pb-3 pt-3 px-3 sm:pb-5 sm:pt-5 sm:px-5 min-h-0" style={{ height: '60%', minHeight: 0, overflow: 'visible' }}>
                 <div className="w-full flex-1 flex flex-col justify-start min-h-0">
-                  <div className="font-bold text-lg mb-2 mt-0 text-center">{product.title}</div>
+                  <div className="font-bold text-base sm:text-lg mb-2 mt-0 text-center">{product.title}</div>
                   <div
-                    className="text-sm opacity-80 mb-4 text-center break-words overflow-auto"
-                    style={{ wordBreak: 'break-word', minHeight: '3.6em', lineHeight: '1.2em', display: 'block' }}
+                    className="text-xs sm:text-sm opacity-80 mb-4 text-center break-words overflow-auto min-h-[4.2em] sm:min-h-[5em]"
+                    style={{ wordBreak: 'break-word', lineHeight: '1.3em', display: 'block', minHeight: '4.2em' }}
                   >
                     {product.description}
                   </div>
                 </div>
-                <button className="px-4 py-1 rounded-full bg-(--secondary) text-white font-semibold shadow hover:bg-cyan-700 transition w-full mt-auto" style={{ marginBottom: 0 }}>More</button>
+                <button className="px-3 py-1 rounded-full bg-(--secondary) text-white font-semibold shadow hover:bg-cyan-700 transition w-full mt-auto text-xs sm:text-base" style={{ marginBottom: 0 }}>More</button>
               </div>
             </div>
           ))}
