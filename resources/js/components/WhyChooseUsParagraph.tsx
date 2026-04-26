@@ -4,7 +4,7 @@ const fullText = `At Polypackaging, we combine decades of expertise, state-of-th
 
 export const WhyChooseUsParagraph: React.FC = () => {
   return (
-    <div className="max-w-3xl mx-auto rounded-3xl bg-white/20 backdrop-blur-md shadow-xl p-8 flex flex-col items-center border border-(--muted) transition-all">
+    <div className="max-w-3xl mx-auto rounded-3xl p-8 flex flex-col items-center transition-all duration-300 group border-2 border-transparent hover:border-cyan-400 hover:shadow-[0_0_16px_2px_#22d3ee55]">
       <p className="text-lg md:text-xl text-center text-(--foreground) font-medium leading-relaxed mb-8">
         {fullText}
       </p>

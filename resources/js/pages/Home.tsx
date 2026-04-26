@@ -45,12 +45,14 @@ export default function Home() {
       </section>
 
       {/* Section 2: Who We Are */}
-      <section className="py-10 sm:py-14 md:py-16 flex justify-center border-b bg-(--card) px-2 sm:px-4 md:px-0">
-        <div className="modern-glass max-w-6xl w-full px-2 sm:px-6 md:px-10 py-8 sm:py-10 md:py-12 flex flex-col items-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-(--secondary) font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
+      <section className="py-10 sm:py-14 md:py-16 flex justify-center border-b bg-transparent px-2 sm:px-4 md:px-0">
+        <div className="max-w-3xl w-full flex flex-col items-center px-2 sm:px-6 md:px-10 py-6 sm:py-8 md:py-10">
+          {/* <span className="uppercase tracking-widest text-cyan-400 font-bold text-xs sm:text-sm mb-2">About Us</span> */}
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 text-center text-(--secondary) font-[Montserrat,sans-serif] tracking-tight relative">
             Who We Are
+            <span className="block mx-auto mt-2 w-16 h-1 rounded-full bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 opacity-80"></span>
           </h2>
-          <p className="text-base sm:text-lg md:text-xl font-medium text-center text-white/90 font-[Inter,sans-serif] leading-relaxed drop-shadow max-w-2xl">
+          <p className="text-base sm:text-lg md:text-xl font-normal text-center text-(--foreground) font-[Inter,sans-serif] leading-relaxed max-w-2xl mt-4 mb-0">
             {(() => {
               const text = "With over 30 years of experience, Polypackaging Industries (Pvt) Ltd is the leading flexible packaging manufacturer in Sri Lanka's North Western Province, specializing in high-quality Roto Gravure and Flexographic printing. As an ISO 22000:2005 certified company, we provide innovative, food-safe, and cost-effective packaging solutions designed to enhance product protection and market appeal. We are committed to social responsibility and exceptional service, offering expert consultation and eco-friendly recycling initiatives to support our clients and the environment.";
               const highlights = findHighlightRanges(
@@ -75,7 +77,6 @@ export default function Home() {
                 />
               );
             })()}
-            <br className="hidden md:block" />
           </p>
         </div>
       </section>
