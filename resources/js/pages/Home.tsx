@@ -1,4 +1,6 @@
 import React from 'react';
+import { RichTypewriter } from '@/components/RichTypewriter';
+import { findHighlightRanges } from '@/components/findHighlightRanges';
 import { MainSlider } from '@/components/main-slider';
 import { ProductSlider } from '@/components/ProductSlider';
 
@@ -46,8 +48,31 @@ export default function Home() {
             Who We Are
           </h2>
           <p className="text-lg md:text-xl font-medium text-center text-white/90 font-[Inter,sans-serif] leading-relaxed drop-shadow max-w-2xl">
-            With over 30 years of experience, <span className="text-(--secondary) font-semibold">Polypackaging Industries (Pvt) Ltd</span> is the leading flexible packaging manufacturer in Sri Lanka's North Western Province, specializing in high-quality Roto Gravure and Flexographic printing. As an <span className="text-cyan-400 font-semibold">ISO 22000:2005</span> certified company, we provide innovative, food-safe, and cost-effective packaging solutions designed to enhance product protection and market appeal.<br className="hidden md:block" />
-            <span className="block mt-4">We are committed to <span className="text-cyan-400 font-semibold">social responsibility</span> and exceptional service, offering expert consultation and eco-friendly recycling initiatives to support our clients and the environment.</span>
+            {(() => {
+              const text = "With over 30 years of experience, Polypackaging Industries (Pvt) Ltd is the leading flexible packaging manufacturer in Sri Lanka's North Western Province, specializing in high-quality Roto Gravure and Flexographic printing. As an ISO 22000:2005 certified company, we provide innovative, food-safe, and cost-effective packaging solutions designed to enhance product protection and market appeal. We are committed to social responsibility and exceptional service, offering expert consultation and eco-friendly recycling initiatives to support our clients and the environment.";
+              const highlights = findHighlightRanges(
+                text,
+                [
+                  "Polypackaging Industries (Pvt) Ltd",
+                  "ISO 22000:2005",
+                  "social responsibility"
+                ],
+                [
+                  "text-(--secondary) font-semibold",
+                  "text-cyan-400 font-semibold",
+                  "text-cyan-400 font-semibold"
+                ]
+              );
+              return (
+                <RichTypewriter
+                  text={text}
+                  speed={7}
+                  highlights={highlights}
+                  className="inline"
+                />
+              );
+            })()}
+            <br className="hidden md:block" />
           </p>
         </div>
       </section>
