@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Menu, Youtube, Facebook, Linkedin } from 'lucide-react';
+import { Menu, Youtube, Facebook, Linkedin } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -10,12 +10,6 @@ import {
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuList,
-    navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
 import {
     Sheet,
     SheetContent,
@@ -32,7 +26,6 @@ import { UserMenuContent } from '@/components/user-menu-content';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { useInitials } from '@/hooks/use-initials';
 import { cn, toUrl } from '@/lib/utils';
-import { dashboard } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
 type Props = {
@@ -61,9 +54,6 @@ const rightNavItems: NavItem[] = [
     //     icon: BookOpen,
     // },
 ];
-
-const activeItemStyles =
-    'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
 export function AppHeader({ breadcrumbs = [] }: Props) {
     const page = usePage();
@@ -148,10 +138,10 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
 
                     {/* Desktop Navigation */}
                     <div className="ml-6 hidden h-full items-center space-x-2 lg:flex">
-                        <NavigationMenu className="flex h-full items-stretch">
-                            <NavigationMenuList className="flex h-full items-stretch space-x-1">
+                        <nav className="flex h-full items-stretch">
+                            <ul className="flex h-full items-stretch space-x-1 list-none">
                                 {mainNavItems.map((item, index) => (
-                                    <NavigationMenuItem
+                                    <li
                                         key={index}
                                         className="relative flex h-full items-center"
                                     >
@@ -174,10 +164,10 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                         {isCurrentUrl(item.href) && (
                                             <div className="absolute bottom-0 left-2 right-2 h-1 rounded bg-cyan-400"></div>
                                         )}
-                                    </NavigationMenuItem>
+                                    </li>
                                 ))}
-                            </NavigationMenuList>
-                        </NavigationMenu>
+                            </ul>
+                        </nav>
                     </div>
 
                     <div className="ml-auto flex items-center space-x-2">
