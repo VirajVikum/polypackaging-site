@@ -79,7 +79,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                             </SheetTrigger>
                             <SheetContent
                                 side="left"
-                                className="flex h-full w-64 flex-col items-stretch justify-between bg-sidebar"
+                                className="flex h-full w-64 flex-col items-stretch justify-between bg-white/95 border-r border-red-200"
                             >
                                 <SheetTitle className="sr-only">
                                     Navigation menu
@@ -151,9 +151,9 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                                 'px-4 py-2 rounded-lg font-medium transition-all duration-200 text-white',
                                                 whenCurrentUrl(
                                                     item.href,
-                                                    'bg-white/10 text-cyan-400 shadow-inner',
+                                                    'bg-white/10 text-white shadow-inner',
                                                 ),
-                                                'hover:bg-cyan-400/10 hover:text-cyan-300 focus-visible:ring-2 focus-visible:ring-cyan-400',
+                                                'hover:bg-red-100 hover:text-red-600 focus-visible:ring-2 focus-visible:ring-red-600',
                                             )}
                                         >
                                             {item.icon && (
@@ -162,7 +162,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                             {item.title}
                                         </Link>
                                         {isCurrentUrl(item.href) && (
-                                            <div className="absolute bottom-0 left-2 right-2 h-1 rounded bg-cyan-400"></div>
+                                            <div className="absolute bottom-0 left-2 right-2 h-1 rounded bg-red-600"></div>
                                         )}
                                     </li>
                                 ))}
@@ -180,25 +180,25 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-cyan-400/10 transition"
                                 aria-label="YouTube"
                             >
-                                <Youtube className="size-6 text-red-600 group-hover:scale-110 transition-transform" />
+                                <Youtube className="size-6 text-white group-hover:scale-110 transition-transform" />
                             </a>
                             <a
                                 href="https://www.facebook.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-cyan-400/10 transition"
+                                    className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-red-100 transition"
                                 aria-label="Facebook"
                             >
-                                <Facebook className="size-6 text-blue-600 group-hover:scale-110 transition-transform" />
+                                    <Facebook className="size-6 text-blue-500 group-hover:scale-110 transition-transform" />
                             </a>
                             <a
                                 href="https://www.linkedin.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-cyan-400/10 transition"
+                                    className="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-red-100 transition"
                                 aria-label="LinkedIn"
                             >
-                                <Linkedin className="size-6 text-blue-800 group-hover:scale-110 transition-transform" />
+                                    <Linkedin className="size-6 text-blue-700 group-hover:scale-110 transition-transform" />
                             </a>
                             <div className="ml-1 hidden gap-1 lg:flex">
                                 {rightNavItems.map((item) => (

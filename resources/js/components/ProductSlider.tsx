@@ -104,7 +104,7 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
       {/* Arrow controls - outside the slider */}
       <div className="flex flex-col justify-center items-center h-full mr-2">
         <button
-          className="rounded-full bg-(--secondary) p-2 shadow disabled:opacity-40"
+          className="rounded-full bg-red-600 hover:bg-red-700 p-2 shadow disabled:opacity-40"
           aria-label="Previous slide"
           onClick={prev}
           disabled={isManual}
@@ -128,7 +128,7 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
               <div
                 key={product.title + idx + start}
                 className={
-                  "product-card bg-(--primary) text-(--primary-foreground) rounded-2xl shadow-lg border-2 border-(--secondary,#06b6d4) flex flex-col items-stretch p-0 group transition-transform hover:-translate-y-1 overflow-hidden" +
+                  "product-card bg-white text-black rounded-2xl shadow-lg border-2 border-red-600 flex flex-col items-stretch p-0 group transition-transform hover:-translate-y-1 overflow-hidden" +
                   (visibleCount === 1 ? " w-72 min-w-[16rem] max-w-xs" :
                     visibleCount === 2 ? " w-1/2 min-w-48 max-w-sm" :
                     " w-1/4 min-w-40")
@@ -148,7 +148,7 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
                       {product.description}
                     </div>
                   </div>
-                  <button className="px-3 py-1 rounded-full bg-(--secondary) text-white font-semibold shadow hover:bg-cyan-700 transition w-full mt-auto text-xs sm:text-base" style={{ marginBottom: 0 }}>More</button>
+                  <button className="px-3 py-1 rounded-full bg-red-600 text-white font-semibold shadow hover:bg-red-700 transition w-full mt-auto text-xs sm:text-base border border-red-600" style={{ marginBottom: 0 }}>More</button>
                 </div>
               </div>
             );
@@ -157,7 +157,7 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
       </div>
       <div className="flex flex-col justify-center items-center h-full ml-2">
         <button
-          className="rounded-full bg-(--secondary) p-2 shadow disabled:opacity-40"
+          className="rounded-full bg-red-600 hover:bg-red-700 p-2 shadow disabled:opacity-40"
           aria-label="Next slide"
           onClick={() => next(true)}
           disabled={isManual}

@@ -107,7 +107,7 @@ export const MainSlider: React.FC<MainSliderProps> = ({ images }) => {
           className="text-4xl md:text-6xl font-extrabold text-white text-center px-8 py-6 rounded-xl shadow-2xl backdrop-blur-md font-[Montserrat,sans-serif] tracking-tight"
           style={{
             textShadow: '0 4px 24px #000, 0 0 2px #000, 0 0 12px #000',
-            WebkitTextStroke: '2px #06b6d4',
+            WebkitTextStroke: '2px #d32f2f',
             fontFamily: 'Montserrat, Poppins, Inter, Arial, sans-serif',
             letterSpacing: '-0.02em',
           }}
@@ -123,7 +123,7 @@ export const MainSlider: React.FC<MainSliderProps> = ({ images }) => {
         disabled={isSliding}
       >
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform group-hover:-translate-x-1 group-hover:scale-110">
-          <polyline points="32,12 16,24 32,36" stroke="#06b6d4" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          <polyline points="32,12 16,24 32,36" stroke="#d32f2f" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
         </svg>
       </button>
       <button
@@ -134,7 +134,7 @@ export const MainSlider: React.FC<MainSliderProps> = ({ images }) => {
         disabled={isSliding}
       >
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform group-hover:translate-x-1 group-hover:scale-110">
-          <polyline points="16,12 32,24 16,36" stroke="#06b6d4" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          <polyline points="16,12 32,24 16,36" stroke="#d32f2f" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
         </svg>
       </button>
     </div>

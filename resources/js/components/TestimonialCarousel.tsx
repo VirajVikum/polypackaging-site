@@ -72,14 +72,13 @@ export const TestimonialCarousel: React.FC = () => {
         {testimonials.map((_, i) => (
           <button
             key={i}
-            className={`w-2.5 h-2.5 rounded-full ${i === start ? 'bg-cyan-400' : 'bg-gray-400/40'} transition`}
+            className={`w-2.5 h-2.5 rounded-full ${i === start ? 'bg-red-400' : 'bg-gray-400/40'} transition`}
             onClick={() => setStart(i)}
             aria-label={`Go to testimonial ${i + 1}`}
           />
         ))}
       </div>
-      {/* Bottom gradient overlay */}
-      <div className="pointer-events-none absolute left-0 right-0 bottom-0 h-16 z-20" style={{background: 'linear-gradient(to top, rgba(0,0,0,0.45) 70%, transparent 100%)'}} />
+
     </div>
   );
 };
@@ -88,7 +87,7 @@ const TestimonialCard: React.FC<{ t: typeof testimonials[0] }> = ({ t }) => (
   <div className="relative flex flex-col items-center min-w-[320px] max-w-xl w-full mx-auto">
     {/* Card content with fixed height and hover group */}
     <div
-      className="group rounded-3xl bg-black/70 shadow-xl p-8 flex flex-col items-center border border-cyan-900/40 w-full overflow-hidden z-10 transition-all duration-300"
+      className="group rounded-3xl bg-white shadow-xl p-8 flex flex-col items-center border border-red-200 w-full overflow-hidden z-10 transition-all duration-300"
       style={{ minHeight: '340px', maxHeight: '340px', height: '340px', borderBottomWidth: 0 }}
     >
       <div className="flex items-center gap-1 mb-4">
@@ -98,30 +97,10 @@ const TestimonialCard: React.FC<{ t: typeof testimonials[0] }> = ({ t }) => (
         <span className="text-yellow-400 text-2xl">★</span>
         <span className="text-yellow-400 text-2xl">★</span>
       </div>
-      <p className="text-lg text-white text-center mb-6 italic">“{t.text}”</p>
-      <div className="font-bold text-cyan-300 text-base">{t.name}</div>
-      <div className="text-sm text-cyan-400">{t.role}<span className={`font-semibold ${t.companyClass}`}>{t.company}</span></div>
-      {/* Neon cyan bottom border on hover */}
-      {/* Neon effect only on hover */}
-      <div
-        className="pointer-events-none w-full mx-auto hidden group-hover:block transition-opacity duration-300"
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: '-8px',
-          height: '14px',
-          borderBottomLeftRadius: '1.5rem',
-          borderBottomRightRadius: '1.5rem',
-          background: 'radial-gradient(ellipse at center, rgba(34,211,238,0.38) 0%, rgba(6,182,212,0.22) 40%, rgba(34,211,238,0.08) 70%, transparent 100%)',
-          boxShadow: '0 0 12px 2px #22d3ee, 0 0 24px 6px #06b6d4',
-          opacity: 0.85,
-          zIndex: 1,
-        }}
-      />
-      <style>{`
-        .group:hover { border-bottom-width: 3px !important; border-bottom-color: #22d3ee !important; box-shadow: 0 4px 24px 0 #22d3ee44; }
-      `}</style>
+      <p className="text-lg text-black text-center mb-6 italic">“{t.text}”</p>
+      <div className="font-bold text-red-600 text-base">{t.name}</div>
+      <div className="text-sm text-black">{t.role}<span className="font-semibold text-red-600">{t.company}</span></div>
+
     </div>
   </div>
 );
