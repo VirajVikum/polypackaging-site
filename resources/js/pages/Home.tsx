@@ -83,7 +83,9 @@ export default function Home() {
 
       {/* Section 3: Product Slider */}
       <section className="py-8 sm:py-10 md:py-12 border-b bg-(--background) px-2 sm:px-4 md:px-0">
-        <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center text-(--secondary)">Our Products</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-10 md:mb-12 text-cyan-400 font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
+          Our Products
+        </h2>
         {/* ProductSlider carousel */}
         <ProductSlider
           products={[

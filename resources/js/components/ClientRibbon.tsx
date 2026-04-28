@@ -19,7 +19,8 @@ export const ClientRibbon: React.FC = () => {
   // Duplicate images for seamless loop
   const images = [...clientImages, ...clientImages];
   return (
-    <div className="relative w-full overflow-hidden py-6 bg-transparent">
+    <div className="relative w-full overflow-hidden py-6 bg-transparent flex flex-col gap-4">
+      {/* Row 1: scrolls left */}
       <div
         className="flex items-center gap-10 animate-client-ribbon"
         style={{
@@ -28,7 +29,24 @@ export const ClientRibbon: React.FC = () => {
       >
         {images.map((img, i) => (
           <img
-            key={i}
+            key={"left-" + i}
+            src={`/images/clients/${img}`}
+            alt="Client logo"
+            className="h-14 w-auto object-contain opacity-80 hover:opacity-100 transition duration-200 drop-shadow-lg"
+            draggable={false}
+          />
+        ))}
+      </div>
+      {/* Row 2: scrolls right */}
+      <div
+        className="flex items-center gap-10 animate-client-ribbon-reverse"
+        style={{
+          animation: "client-ribbon-scroll-reverse 28s linear infinite",
+        }}
+      >
+        {images.map((img, i) => (
+          <img
+            key={"right-" + i}
             src={`/images/clients/${img}`}
             alt="Client logo"
             className="h-14 w-auto object-contain opacity-80 hover:opacity-100 transition duration-200 drop-shadow-lg"
@@ -41,7 +59,11 @@ export const ClientRibbon: React.FC = () => {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-        .animate-client-ribbon {
+        @keyframes client-ribbon-scroll-reverse {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+        .animate-client-ribbon, .animate-client-ribbon-reverse {
           min-width: 200%;
         }
       `}</style>

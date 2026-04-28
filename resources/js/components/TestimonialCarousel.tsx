@@ -40,7 +40,7 @@ const testimonials = [
 
 export const TestimonialCarousel: React.FC = () => {
   const [start, setStart] = React.useState(0);
-  const [anim, setAnim] = React.useState(false);
+  const [isFading, setIsFading] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
 
   React.useEffect(() => {
@@ -53,82 +53,33 @@ export const TestimonialCarousel: React.FC = () => {
   // Animate every 4s
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      setAnim(true);
+      setIsFading(true);
       setTimeout(() => {
         setStart((prev) => (prev + 1) % testimonials.length);
-        setAnim(false);
-      }, 600); // Animation duration
+        setIsFading(false);
+      }, 500);
     }, 4000);
     return () => clearTimeout(timer);
   }, [start]);
 
-  if (isMobile) {
-    // Show only one testimonial at a time, stacked vertically
-    return (
-      <div className="relative flex flex-col items-center w-full px-2">
-        <div className="w-full max-w-xs mx-auto">
-          <TestimonialCard t={testimonials[start]} />
-        </div>
-        <div className="flex justify-center gap-2 mt-4">
-          {testimonials.map((_, i) => (
-            <button
-              key={i}
-              className={`w-2.5 h-2.5 rounded-full ${i === start ? 'bg-cyan-400' : 'bg-gray-400/40'} transition`}
-              onClick={() => setStart(i)}
-              aria-label={`Go to testimonial ${i + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // Desktop: 3-at-a-time animated carousel
-  const indices = [0, 1, 2].map(i => (start + i) % testimonials.length);
-  const incomingIdx = (start + 3) % testimonials.length;
-
+  // Show only one testimonial at a time (both mobile and desktop)
   return (
-    <div className="relative flex justify-center gap-8 min-h-[380px] w-full">
-      {/* Outgoing (leftmost) */}
-      <div
-        className={`absolute left-0 top-0 transition-all duration-600 ${anim ? 'animate-tc-fade-left' : ''}`}
-        style={{ width: '33.33%', zIndex: 7 }}
-      >
-        <TestimonialCard t={testimonials[indices[0]]} />
+    <div className="relative flex flex-col items-center w-full px-2 min-h-95 overflow-hidden">
+      <div className={`w-full max-w-xl mx-auto transition-opacity duration-500 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
+        <TestimonialCard t={testimonials[start]} />
       </div>
-      {/* Center */}
-      <div
-        className={`absolute left-[33.33%] top-0 transition-all duration-600 ${anim ? 'animate-tc-slide-left' : ''}`}
-        style={{ width: '33.33%', zIndex: 8 }}
-      >
-        <TestimonialCard t={testimonials[indices[1]]} />
+      <div className="flex justify-center gap-2 mt-4">
+        {testimonials.map((_, i) => (
+          <button
+            key={i}
+            className={`w-2.5 h-2.5 rounded-full ${i === start ? 'bg-cyan-400' : 'bg-gray-400/40'} transition`}
+            onClick={() => setStart(i)}
+            aria-label={`Go to testimonial ${i + 1}`}
+          />
+        ))}
       </div>
-      {/* Right */}
-      <div
-        className={`absolute left-[66.66%] top-0 transition-all duration-600 ${anim ? 'animate-tc-slide-left' : ''}`}
-        style={{ width: '33.33%', zIndex: 9 }}
-      >
-        <TestimonialCard t={testimonials[indices[2]]} />
-      </div>
-      {/* Incoming (hidden unless animating) */}
-      {anim && (
-        <div
-          className="absolute left-full top-0 animate-tc-slide-in transition-all duration-600"
-          style={{ width: '33.33%', zIndex: 10 }}
-        >
-          <TestimonialCard t={testimonials[incomingIdx]} />
-        </div>
-      )}
       {/* Bottom gradient overlay */}
       <div className="pointer-events-none absolute left-0 right-0 bottom-0 h-16 z-20" style={{background: 'linear-gradient(to top, rgba(0,0,0,0.45) 70%, transparent 100%)'}} />
-      <style>{`
-        @keyframes tc-fade-left { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(-60px); } }
-        @keyframes tc-slide-left { from { transform: translateX(0); } to { transform: translateX(-33.33%); } }
-        @keyframes tc-slide-in { from { opacity: 0; transform: translateX(0); } to { opacity: 1; transform: translateX(-100%); } }
-        .animate-tc-fade-left { animation: tc-fade-left 0.6s forwards; }
-        .animate-tc-slide-left { animation: tc-slide-left 0.6s forwards; }
-        .animate-tc-slide-in { animation: tc-slide-in 0.6s forwards; }
-      `}</style>
     </div>
   );
 };
