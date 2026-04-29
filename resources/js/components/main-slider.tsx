@@ -117,10 +117,11 @@ export const MainSlider: React.FC<MainSliderProps> = ({ images }) => {
       <div className="absolute left-0 bottom-0 w-full flex flex-col items-start justify-end z-20 p-8 pointer-events-none">
         <span
           className={
-            `text-4xl md:text-6xl font-bold text-white text-left px-0 py-0 pb-4 font-[Montserrat,sans-serif] tracking-tight transition-all duration-700 ease-out ` +
+            `text-2xl md:text-4xl font-bold text-white text-left px-0 py-0 pb-84 tracking-tight transition-all duration-700 ease-out ` +
             (textVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0')
           }
           style={{
+            fontFamily: 'Michroma, Montserrat, sans-serif',
             textShadow: '0 2px 8px #000',
             WebkitTextStroke: 'unset',
             background: 'unset',
