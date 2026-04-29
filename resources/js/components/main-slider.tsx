@@ -17,6 +17,7 @@ export const MainSlider: React.FC<MainSliderProps> = ({ images }) => {
   const [isSliding, setIsSliding] = React.useState(false);
   const [coverPos, setCoverPos] = React.useState<'init' | 'cover' | null>(null);
   const [direction, setDirection] = React.useState<'left' | 'right'>('right');
+  const [textVisible, setTextVisible] = React.useState(false);
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const slideDuration = 700;
 
@@ -57,11 +58,22 @@ export const MainSlider: React.FC<MainSliderProps> = ({ images }) => {
   React.useEffect(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(next, 5000);
-    return () => timeoutRef.current && clearTimeout(timeoutRef.current);
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, [current, images.length]);
 
+  // Hide text before image loads, show after a short delay (animation)
+  React.useEffect(() => {
+    setTextVisible(false);
+    if (!isSliding) {
+      const timer = setTimeout(() => setTextVisible(true), 150);
+      return () => clearTimeout(timer);
+    }
+  }, [current, isSliding]);
+
   return (
-    <div className="relative w-full h-[32rem] overflow-hidden flex items-center justify-center bg-black/90 rounded-3xl shadow-2xl backdrop-blur-md mt-6">
+    <div className="relative w-full h-152 overflow-hidden flex items-center justify-center bg-black/90 rounded-3xl shadow-2xl mt-6">
       {/* Previous image stays in place */}
       <img
         key={images[prev !== null ? prev : current].src + '-under'}
@@ -90,7 +102,7 @@ export const MainSlider: React.FC<MainSliderProps> = ({ images }) => {
           }}
         />
       )}
-      {/* If not sliding, show current image on top */}
+      {/* If not sliding, show current image on top, and trigger text animation after load */}
       {!isSliding && (
         <img
           key={images[current].src + '-top'}
@@ -102,13 +114,16 @@ export const MainSlider: React.FC<MainSliderProps> = ({ images }) => {
           }}
         />
       )}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 bg-gradient-to-b from-black/70 via-black/40 to-black/70 rounded-3xl">
+      <div className="absolute left-0 bottom-0 w-full flex flex-col items-start justify-end z-20 p-8 pointer-events-none">
         <span
-          className="text-4xl md:text-6xl font-extrabold text-white text-center px-8 py-6 rounded-xl shadow-2xl backdrop-blur-md font-[Montserrat,sans-serif] tracking-tight"
+          className={
+            `text-4xl md:text-6xl font-bold text-white text-left px-0 py-0 pb-4 font-[Montserrat,sans-serif] tracking-tight transition-all duration-700 ease-out ` +
+            (textVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0')
+          }
           style={{
-            textShadow: '0 4px 24px #000, 0 0 2px #000, 0 0 12px #000',
-            WebkitTextStroke: '2px #d32f2f',
-            fontFamily: 'Montserrat, Poppins, Inter, Arial, sans-serif',
+            textShadow: '0 2px 8px #000',
+            WebkitTextStroke: 'unset',
+            background: 'unset',
             letterSpacing: '-0.02em',
           }}
         >
