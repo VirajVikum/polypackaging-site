@@ -1,5 +1,6 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { dashboard, login, register } from '@/routes';
+import GreetingNewsModal from '@/components/GreetingNewsModal';
 
 export default function Welcome({
     canRegister = true,
@@ -10,6 +11,7 @@ export default function Welcome({
 
     return (
         <>
+            <GreetingNewsModal forceShow />
             <Head title="Welcome">
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link
