@@ -46,6 +46,15 @@ export default function GreetingNewsModal({ forceShow = false }: { forceShow?: b
             </li>
           ))}
         </ul>
+        {/* Eco-friendly Recycle Section */}
+        <div className="flex flex-col items-center justify-center mt-8 mb-2">
+          <img
+            src="/images/landing-modal/Recycle.png"
+            alt="Eco Friendly Recycling"
+            className="w-80 h-80 object-contain drop-shadow-lg"
+            loading="lazy"
+          />
+        </div>
         <DialogClose className="mt-6 w-full rounded bg-primary text-white py-2 font-semibold hover:bg-primary/90">Close</DialogClose>
       </DialogContent>
     </Dialog>
