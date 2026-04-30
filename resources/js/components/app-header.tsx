@@ -217,7 +217,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                         </div>
 
                         <div className="ml-auto flex items-center space-x-2">
-                            <nav className="flex h-full items-stretch">
+                            <nav className="hidden lg:flex h-full items-stretch">
                                 <ul className="flex h-full items-stretch space-x-1 list-none">
                                     {mainNavItems.map((item, index) => (
                                         <li

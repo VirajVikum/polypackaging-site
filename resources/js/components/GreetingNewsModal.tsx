@@ -31,7 +31,7 @@ export default function GreetingNewsModal({ forceShow = false }: { forceShow?: b
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
+      <DialogContent className="max-h-[90vh] overflow-y-auto p-5 sm:p-8">
         <DialogHeader>
           <DialogTitle>Welcome!</DialogTitle>
           <DialogDescription>
@@ -47,11 +47,11 @@ export default function GreetingNewsModal({ forceShow = false }: { forceShow?: b
           ))}
         </ul>
         {/* Eco-friendly Recycle Section */}
-        <div className="flex flex-col items-center justify-center mt-8 mb-2">
+        <div className="flex flex-col items-center justify-center mt-6 sm:mt-8 mb-2">
           <img
             src="/images/landing-modal/Recycle.png"
             alt="Eco Friendly Recycling"
-            className="w-80 h-80 object-contain drop-shadow-lg"
+            className="w-48 h-48 sm:w-80 sm:h-80 object-contain drop-shadow-lg max-w-full"
             loading="lazy"
           />
         </div>
