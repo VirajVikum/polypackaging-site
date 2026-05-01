@@ -35,17 +35,17 @@ export default function GreetingNewsModal({ forceShow = false }: { forceShow?: b
         <DialogHeader>
           <DialogTitle>Welcome!</DialogTitle>
           <DialogDescription>
-            We’re glad to have you here. Here’s what’s new:
+            We’re glad to have you here.
           </DialogDescription>
         </DialogHeader>
-        <ul className="mt-4 space-y-2">
+        {/* <ul className="mt-4 space-y-2">
           {mockNews.map((news) => (
             <li key={news.id} className="border-b pb-2 last:border-b-0 last:pb-0">
               <div className="font-medium">{news.title}</div>
               <div className="text-xs text-muted-foreground">{news.date}</div>
             </li>
           ))}
-        </ul>
+        </ul> */}
         {/* Eco-friendly Recycle Section */}
         <div className="flex flex-col items-center justify-center mt-6 sm:mt-8 mb-2">
           <img
