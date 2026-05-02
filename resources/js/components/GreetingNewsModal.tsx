@@ -29,6 +29,8 @@ export default function GreetingNewsModal({ forceShow = false }: { forceShow?: b
     }
   }, [forceShow]);
 
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => { setMounted(true); }, []);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-h-[90vh] overflow-y-auto p-5 sm:p-8">
@@ -46,17 +48,83 @@ export default function GreetingNewsModal({ forceShow = false }: { forceShow?: b
             </li>
           ))}
         </ul> */}
-        {/* Eco-friendly Recycle Section */}
-        <div className="flex flex-col items-center justify-center mt-6 sm:mt-8 mb-2">
-          <img
-            src="/images/landing-modal/Recycle.png"
-            alt="Eco Friendly Recycling"
-            className="w-48 h-48 sm:w-80 sm:h-80 object-contain drop-shadow-lg max-w-full"
-            loading="lazy"
-          />
-        </div>
+        {/* Landing Modal Image Slider */}
+        {mounted && <ImageSlider />}
         <DialogClose className="mt-6 w-full rounded bg-primary text-white py-2 font-semibold hover:bg-primary/90">Close</DialogClose>
       </DialogContent>
     </Dialog>
+  );
+}
+
+// Simple image slider for landing-modal images
+const landingModalImages = [
+  {
+    src: "/images/landing-modal/Recycle.png",
+    alt: "Eco Friendly Recycling",
+  },
+  {
+    src: "/images/landing-modal/new-year.png",
+    alt: "New Year Celebration",
+  },
+  {
+    src: "/images/landing-modal/vesak.png",
+    alt: "Vesak Festival",
+  },
+];
+
+function ImageSlider() {
+  const [index, setIndex] = React.useState(0);
+  const total = landingModalImages.length;
+
+  // Auto-slide every 3 seconds
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % total);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [total]);
+
+  const prev = () => setIndex((i) => (i - 1 + total) % total);
+  const next = () => setIndex((i) => (i + 1) % total);
+
+  return (
+    <div className="flex flex-col items-center justify-center mt-6 sm:mt-8 mb-2">
+      <div className="relative w-48 h-48 sm:w-80 sm:h-80">
+        <img
+          src={landingModalImages[index].src}
+          alt={landingModalImages[index].alt}
+          className="w-full h-full object-contain drop-shadow-lg max-w-full rounded transition-all duration-500"
+          loading="lazy"
+        />
+        {/* Navigation buttons */}
+        <button
+          onClick={prev}
+          className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-xl px-2 py-1 rounded-full shadow border border-gray-200"
+          aria-label="Previous image"
+          style={{ zIndex: 2 }}
+        >
+          ‹
+        </button>
+        <button
+          onClick={next}
+          className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-xl px-2 py-1 rounded-full shadow border border-gray-200"
+          aria-label="Next image"
+          style={{ zIndex: 2 }}
+        >
+          ›
+        </button>
+      </div>
+      {/* Dots indicator */}
+      <div className="flex gap-2 mt-2">
+        {landingModalImages.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            className={`w-2.5 h-2.5 rounded-full ${i === index ? 'bg-primary' : 'bg-gray-300'} transition-colors`}
+            aria-label={`Go to image ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
