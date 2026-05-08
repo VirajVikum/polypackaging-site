@@ -1,9 +1,13 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
 
 Route::inertia('/', 'Home')->name('home');
+
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/api/paginate', [ProductController::class, 'paginate'])->name('products.paginate');
+Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');

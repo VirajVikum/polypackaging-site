@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from '@inertiajs/react';
 
 interface Product {
   image: string;
   title: string;
   description: string;
+  slug?: string;
 }
 
 interface ProductSliderProps {
@@ -163,7 +165,17 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
                       {product.description}
                     </div>
                   </div>
-                  <button className="px-3 py-1 rounded-full bg-red-600 text-white font-semibold shadow hover:bg-red-700 transition w-full mt-auto text-xs sm:text-base border border-red-600" style={{ marginBottom: 0 }}>More</button>
+                  {product.slug ? (
+                    <Link
+                      href={`/products/${product.slug}`}
+                      className="px-3 py-1 rounded-full bg-red-600 text-white font-semibold shadow hover:bg-red-700 transition w-full mt-auto text-xs sm:text-base border border-red-600 text-center block"
+                      style={{ marginBottom: 0 }}
+                    >
+                      More
+                    </Link>
+                  ) : (
+                    <button className="px-3 py-1 rounded-full bg-red-600 text-white font-semibold shadow hover:bg-red-700 transition w-full mt-auto text-xs sm:text-base border border-red-600" style={{ marginBottom: 0 }}>More</button>
+                  )}
                 </div>
               </div>
             );

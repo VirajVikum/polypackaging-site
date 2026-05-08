@@ -1,15 +1,22 @@
 import { TestimonialCarousel } from '@/components/TestimonialCarousel';
 import { ClientRibbon } from '@/components/ClientRibbon';
 import React from 'react';
+import { Link } from '@inertiajs/react';
 import { RichTypewriter } from '@/components/RichTypewriter';
 import { findHighlightRanges } from '@/components/findHighlightRanges';
 import { MainSlider } from '@/components/main-slider';
 import { ProductSlider } from '@/components/ProductSlider';
 import { WhyChooseUsParagraph } from '@/components/WhyChooseUsParagraph';
+import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 
 export default function Home() {
+  const section2 = useIntersectionObserver();
+  const section3 = useIntersectionObserver();
+  const section4 = useIntersectionObserver();
+  const section5 = useIntersectionObserver();
+  const section6 = useIntersectionObserver();
   return (
-    <div className="min-h-screen w-full flex flex-col bg-(--background) text-(--foreground) overflow-x-hidden">
+    <div className="min-h-screen w-full flex flex-col bg-(--background) text-(--foreground)">
 
       {/* Section 1: Main Slider */}
       <section className="border-b px-2 sm:px-4 md:px-0">
@@ -45,7 +52,12 @@ export default function Home() {
       </section>
 
       {/* Section 2: Who We Are */}
-      <section className="py-10 sm:py-14 md:py-16 flex justify-center border-b bg-transparent px-2 sm:px-4 md:px-0">
+      <section 
+        ref={section2.ref}
+        className={`py-10 sm:py-14 md:py-16 flex justify-center border-b bg-transparent px-2 sm:px-4 md:px-0 transition-all duration-1000 ${
+          section2.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="max-w-3xl w-full flex flex-col items-center px-2 sm:px-6 md:px-10 py-6 sm:py-8 md:py-10">
           {/* <span className="uppercase tracking-widest text-red-600 font-bold text-xs sm:text-sm mb-2">About Us</span> */}
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-10 md:mb-12 text-red-600 font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
@@ -82,7 +94,12 @@ export default function Home() {
       </section>
 
       {/* Section 3: Product Slider */}
-      <section className="py-8 sm:py-10 md:py-12 border-b bg-(--background) px-2 sm:px-4 md:px-0">
+      <section 
+        ref={section3.ref}
+        className={`py-8 sm:py-10 md:py-12 border-b bg-(--background) px-2 sm:px-4 md:px-0 transition-all duration-1000 ${
+          section3.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-10 md:mb-12 text-red-600 font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
           Our Products
         </h2>
@@ -92,44 +109,60 @@ export default function Home() {
             {
               image: '/images/product-types/food.png',
               title: 'Food',
-              description: 'Flexible, food-safe packaging for snacks, dry goods, and perishables.'
+              description: 'Flexible, food-safe packaging for snacks, dry goods, and perishables.',
+              slug: 'food-packaging'
             },
             {
               image: '/images/product-types/health.jpg',
               title: 'Health Care',
-              description: 'Hygienic, durable packaging for medical and personal care.'
+              description: 'Hygienic, durable packaging for medical and personal care.',
+              slug: 'healthcare-packaging'
             },
             {
               image: '/images/product-types/pet-care.jpg',
               title: 'Pet Care',
-              description: 'Safe, attractive packaging for pet food and accessories.'
+              description: 'Safe, attractive packaging for pet food and accessories.',
+              slug: 'pet-care-packaging'
             },
             {
               image: '/images/product-types/home.png',
               title: 'Home Care',
-              description: 'Reliable packaging for household products and cleaning supplies.'
-            },
-            {
-              image: '/images/product-types/home.png',
-              title: 'Home Care',
-              description: 'Reliable packaging for household products and cleaning supplies.'
-            },
-            {
-              image: '/images/product-types/home.png',
-              title: 'Home Care',
-              description: 'Reliable packaging for household products and cleaning supplies.'
+              description: 'Reliable packaging for household products and cleaning supplies.',
+              slug: 'home-care-packaging'
             },
             {
               image: '/images/product-types/home.png',
               title: 'Beverages',
-              description: 'Reliable packaging for household products and cleaning supplies.'
+              description: 'Protective packaging for beverages with excellent barrier properties.',
+              slug: 'beverage-packaging'
+            },
+            {
+              image: '/images/product-types/home.png',
+              title: 'Cosmetics',
+              description: 'Premium packaging for beauty and cosmetic products.',
+              slug: 'cosmetics-packaging'
             },
           ]}
         />
+        
+        {/* View All Products Button */}
+        <div className="flex justify-center mt-10">
+          <Link
+            href="/products"
+            className="px-8 py-3 rounded-full bg-red-600 text-white font-semibold shadow hover:bg-red-700 transition"
+          >
+            View All Products
+          </Link>
+        </div>
       </section>
 
       {/* Section 4: Why Choose Us (Paragraph with Show More) */}
-      <section className="py-10 sm:py-14 md:py-16 bg-(--card) text-(--card-foreground) px-2 sm:px-4 md:px-0">
+      <section 
+        ref={section4.ref}
+        className={`py-10 sm:py-14 md:py-16 bg-(--card) text-(--card-foreground) px-2 sm:px-4 md:px-0 transition-all duration-1000 ${
+          section4.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-red-600 mb-8 font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
           Why Choose Us
         </h2>
@@ -137,7 +170,12 @@ export default function Home() {
       </section>
 
       {/* Section 5: Testimonials */}
-      <section className="py-10 sm:py-14 md:py-16 border-b bg-(--card) text-(--card-foreground) px-2 sm:px-4 md:px-0">
+      <section 
+        ref={section5.ref}
+        className={`py-10 sm:py-14 md:py-16 border-b bg-(--card) text-(--card-foreground) px-2 sm:px-4 md:px-0 transition-all duration-1000 ${
+          section5.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-10 md:mb-12 text-red-600 font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
           Testimonials
         </h2>
@@ -145,17 +183,16 @@ export default function Home() {
       </section>
 
       {/* Section 6: Clients Ribbon */}
-      <section className="py-8 sm:py-10 md:py-12 text-center border-b bg-(--card) text-(--card-foreground) px-2 sm:px-4 md:px-0">
+      <section 
+        ref={section6.ref}
+        className={`py-8 sm:py-10 md:py-12 text-center border-b bg-(--card) text-(--card-foreground) px-2 sm:px-4 md:px-0 transition-all duration-1000 ${
+          section6.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-10 md:mb-12 text-red-600 font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
           Our Clients</h2>
         <ClientRibbon />
       </section>
-
-      {/* Bottom Section: Contact Us */}
-      <footer className="py-8 sm:py-10 md:py-12 text-center mt-auto border-t bg-(--primary) text-(--primary-foreground) w-full px-2 sm:px-4 md:px-0">
-        <h2 className="text-xl sm:text-2xl font-bold mb-2 text-(--secondary)">Contact Us</h2>
-        <p className="max-w-2xl mx-auto text-sm sm:text-base">Email: info@example.com | Phone: 123-456-7890</p>
-      </footer>
     </div>
   );
 }
