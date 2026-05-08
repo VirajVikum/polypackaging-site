@@ -29,6 +29,7 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
   const [direction, setDirection] = React.useState<'next' | 'prev'>('next');
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [cardWidth, setCardWidth] = React.useState(0);
+  const [prevStart, setPrevStart] = React.useState(0);
 
 
 
@@ -56,11 +57,12 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
     setIsSliding(true);
     if (manual) setIsManual(true);
     setTimeout(() => {
+      setPrevStart(start);
       setStart((prev) => (prev + 1) % total);
       setIsSliding(false);
       if (manual) setIsManual(false);
     }, 900);
-  }, [isSliding, cardWidth, total]);
+  }, [isSliding, cardWidth, total, start]);
 
   // Slide to previous (manual only)
   const prev = React.useCallback(() => {
@@ -69,11 +71,12 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
     setIsSliding(true);
     setIsManual(true);
     setTimeout(() => {
+      setPrevStart(start);
       setStart((prev) => (prev - 1 + total) % total);
       setIsSliding(false);
       setIsManual(false);
     }, 900);
-  }, [isSliding, cardWidth, total]);
+  }, [isSliding, cardWidth, total, start]);
 
   // Auto slide
   React.useEffect(() => {
@@ -124,6 +127,17 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
           {Array.from({ length: visibleCount }, (_, i) => {
             const idx = (start + i) % total;
             const product = products[idx];
+            
+            // Determine if this card is newly entering
+            let isNewCard = false;
+            if (direction === 'next') {
+              // The rightmost card (last one) is new when sliding next
+              isNewCard = i === visibleCount - 1 && !isSliding;
+            } else {
+              // The leftmost card (first one) is new when sliding prev
+              isNewCard = i === 0 && !isSliding;
+            }
+            
             return (
               <div
                 key={product.title + idx + start}
@@ -131,7 +145,8 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
                   "product-card bg-white text-black rounded-2xl shadow-lg border-2 border-red-600 flex flex-col items-stretch p-0 group transition-transform hover:-translate-y-1 overflow-hidden" +
                   (visibleCount === 1 ? " w-72 min-w-[16rem] max-w-xs" :
                     visibleCount === 2 ? " w-1/2 min-w-48 max-w-sm" :
-                    " w-1/4 min-w-40")
+                    " w-1/4 min-w-40") +
+                  (isNewCard ? " animate-card-entrance" : "")
                 }
                 style={{ height: '340px', minHeight: '300px', maxHeight: '380px' }}
               >

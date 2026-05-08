@@ -7,6 +7,21 @@
     }
 }
 
+@keyframes card-entrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-card-entrance {
+    animation: card-entrance 600ms ease-out forwards;
+}
+
 .modern-glass {
     position: relative;
     border-radius: 1.5rem;
