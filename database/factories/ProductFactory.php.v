@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Product;
+use App\Models\ProductType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -18,7 +19,7 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $titles = ['Food', 'Health Care', 'Pet Care', 'Home Care', 'Beverages', 'Cosmetics', 'Industrial'];
+        $titles = ['Food', 'Health Care', 'Pet Care', 'Home Care', 'Beverages', 'Cosmetics'];
         $title = $this->faker->randomElement($titles);
 
         return [
@@ -28,6 +29,14 @@ class ProductFactory extends Factory
             'image' => '/images/product-types/'.strtolower(str_replace(' ', '-', $title)).'.png',
             'slug' => Str::slug($title.'-'.$this->faker->unique()->numberBetween(1, 1000)),
             'category' => $this->faker->randomElement(['packaging', 'printing', 'custom']),
+            'product_type_id' => null,
         ];
+    }
+
+    public function withProductType(int $productTypeId = null): Factory
+    {
+        return $this->state(fn (array $attributes) => [
+            'product_type_id' => $productTypeId ?? ProductType::factory(),
+        ]);
     }
 }

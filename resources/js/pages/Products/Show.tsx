@@ -2,6 +2,13 @@ import React from 'react';
 import { Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 
+interface ProductType {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+}
+
 interface Product {
     id: number;
     title: string;
@@ -10,6 +17,8 @@ interface Product {
     image: string;
     slug: string;
     category: string;
+    product_type_id: number;
+    productType?: ProductType;
 }
 
 export default function ProductShow({
@@ -28,6 +37,14 @@ export default function ProductShow({
                             Products
                         </Link>
                         <span>/</span>
+                        {product.productType && (
+                            <>
+                                <span className="text-red-600 hover:underline cursor-pointer">
+                                    {product.productType.name}
+                                </span>
+                                <span>/</span>
+                            </>
+                        )}
                         <span className="font-semibold">{product.title}</span>
                     </div>
 
@@ -38,6 +55,14 @@ export default function ProductShow({
                             <h1 className="text-4xl md:text-5xl font-extrabold text-red-600 mb-6 font-[Montserrat,sans-serif]">
                                 {product.title}
                             </h1>
+
+                            {product.productType && (
+                                <div className="inline-flex items-center mb-4">
+                                    <span className="text-sm text-red-600 font-semibold bg-red-50 px-3 py-1 rounded-full">
+                                        {product.productType.name}
+                                    </span>
+                                </div>
+                            )}
 
                             <p className="text-lg text-(--foreground) mb-6 leading-relaxed">
                                 {product.description}

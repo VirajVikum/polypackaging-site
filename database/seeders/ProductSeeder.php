@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
+use App\Models\ProductType;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -20,6 +21,7 @@ class ProductSeeder extends Seeder
                 'image' => '/images/product-types/food.png',
                 'slug' => 'food-packaging',
                 'category' => 'packaging',
+                'product_type_name' => 'Food',
             ],
             [
                 'title' => 'Health Care',
@@ -28,6 +30,7 @@ class ProductSeeder extends Seeder
                 'image' => '/images/product-types/health.jpg',
                 'slug' => 'healthcare-packaging',
                 'category' => 'packaging',
+                'product_type_name' => 'Health Care',
             ],
             [
                 'title' => 'Pet Care',
@@ -36,6 +39,7 @@ class ProductSeeder extends Seeder
                 'image' => '/images/product-types/pet-care.jpg',
                 'slug' => 'pet-care-packaging',
                 'category' => 'packaging',
+                'product_type_name' => 'Pet Care',
             ],
             [
                 'title' => 'Home Care',
@@ -44,6 +48,7 @@ class ProductSeeder extends Seeder
                 'image' => '/images/product-types/home.png',
                 'slug' => 'home-care-packaging',
                 'category' => 'packaging',
+                'product_type_name' => 'Home Care',
             ],
             [
                 'title' => 'Beverages',
@@ -52,6 +57,7 @@ class ProductSeeder extends Seeder
                 'image' => '/images/product-types/home.png',
                 'slug' => 'beverage-packaging',
                 'category' => 'packaging',
+                'product_type_name' => 'Beverages',
             ],
             [
                 'title' => 'Cosmetics',
@@ -60,10 +66,19 @@ class ProductSeeder extends Seeder
                 'image' => '/images/product-types/home.png',
                 'slug' => 'cosmetics-packaging',
                 'category' => 'packaging',
+                'product_type_name' => 'Cosmetics',
             ],
         ];
 
         foreach ($products as $product) {
+            $productTypeName = $product['product_type_name'];
+            unset($product['product_type_name']);
+
+            $productType = ProductType::where('name', $productTypeName)->first();
+            if ($productType) {
+                $product['product_type_id'] = $productType->id;
+            }
+
             Product::create($product);
         }
     }

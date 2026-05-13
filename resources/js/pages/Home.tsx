@@ -9,12 +9,42 @@ import { ProductSlider } from '@/components/ProductSlider';
 import { WhyChooseUsParagraph } from '@/components/WhyChooseUsParagraph';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 
-export default function Home() {
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  slug: string;
+}
+
+interface ProductType {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  products: Product[];
+}
+
+interface Props {
+  productTypes?: ProductType[];
+}
+
+export default function Home({ productTypes = [] }: Props) {
   const section2 = useIntersectionObserver();
   const section3 = useIntersectionObserver();
   const section4 = useIntersectionObserver();
   const section5 = useIntersectionObserver();
   const section6 = useIntersectionObserver();
+
+  // Flatten all products from all types into a single array
+  const allProducts = productTypes.flatMap((type) =>
+    type.products.map((product) => ({
+      image: product.image,
+      title: product.title,
+      description: product.description,
+      slug: product.slug,
+    }))
+  );
   return (
     <div className="min-h-screen w-full flex flex-col bg-(--background) text-(--foreground)">
 
@@ -103,47 +133,14 @@ export default function Home() {
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-10 md:mb-12 text-red-600 font-[Montserrat,sans-serif] tracking-tight drop-shadow-lg text-center">
           Our Products
         </h2>
-        {/* ProductSlider carousel */}
-        <ProductSlider
-          products={[
-            {
-              image: '/images/product-types/food.png',
-              title: 'Food',
-              description: 'Flexible, food-safe packaging for snacks, dry goods, and perishables.',
-              slug: 'food-packaging'
-            },
-            {
-              image: '/images/product-types/health.jpg',
-              title: 'Health Care',
-              description: 'Hygienic, durable packaging for medical and personal care.',
-              slug: 'healthcare-packaging'
-            },
-            {
-              image: '/images/product-types/pet-care.jpg',
-              title: 'Pet Care',
-              description: 'Safe, attractive packaging for pet food and accessories.',
-              slug: 'pet-care-packaging'
-            },
-            {
-              image: '/images/product-types/home.png',
-              title: 'Home Care',
-              description: 'Reliable packaging for household products and cleaning supplies.',
-              slug: 'home-care-packaging'
-            },
-            {
-              image: '/images/product-types/home.png',
-              title: 'Beverages',
-              description: 'Protective packaging for beverages with excellent barrier properties.',
-              slug: 'beverage-packaging'
-            },
-            {
-              image: '/images/product-types/home.png',
-              title: 'Cosmetics',
-              description: 'Premium packaging for beauty and cosmetic products.',
-              slug: 'cosmetics-packaging'
-            },
-          ]}
-        />
+        {/* ProductSlider carousel with dynamic products from database */}
+        {allProducts.length > 0 ? (
+          <ProductSlider products={allProducts} />
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-(--foreground) text-lg">No products available at the moment.</p>
+          </div>
+        )}
         
         {/* View All Products Button */}
         <div className="flex justify-center mt-10">

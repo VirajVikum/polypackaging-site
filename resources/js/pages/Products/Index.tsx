@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 
@@ -9,66 +9,72 @@ interface Product {
     image: string;
     slug: string;
     category: string;
+    product_type_id: number;
 }
 
-interface PaginatedResponse {
-    data: Product[];
-    next_page_url: string | null;
-    current_page: number;
+interface ProductType {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    products: Product[];
 }
 
-export default function ProductsIndex({ initialProducts }: { initialProducts: PaginatedResponse }) {
-    const [products, setProducts] = useState<Product[]>(initialProducts.data);
-    const [nextPageUrl, setNextPageUrl] = useState(initialProducts.next_page_url);
-    const [isLoading, setIsLoading] = useState(false);
-    const observerTarget = useRef<HTMLDivElement>(null);
+interface Props {
+    groupedProducts: Record<string, ProductType>;
+}
 
-    const loadMore = useCallback(async () => {
-        if (!nextPageUrl || isLoading) return;
+export default function ProductsIndex({ groupedProducts }: Props) {
+    const [activeType, setActiveType] = useState<string>(
+        Object.keys(groupedProducts)[0] || ''
+    );
 
-        setIsLoading(true);
-        try {
-            const response = await fetch(nextPageUrl);
-            const data: PaginatedResponse = await response.json();
-            setProducts((prev) => [...prev, ...data.data]);
-            setNextPageUrl(data.next_page_url);
-        } catch (error) {
-            console.error('Failed to load more products:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    }, [nextPageUrl, isLoading]);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting && nextPageUrl && !isLoading) {
-                    loadMore();
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (observerTarget.current) {
-            observer.observe(observerTarget.current);
-        }
-
-        return () => observer.disconnect();
-    }, [loadMore, nextPageUrl, isLoading]);
+    const productTypes = Object.values(groupedProducts);
+    const currentType = groupedProducts[activeType];
 
     return (
         <div className="min-h-screen bg-(--background) px-4 sm:px-6 md:px-8 py-12">
-                <div className="max-w-6xl mx-auto">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-red-600 mb-4 font-[Montserrat,sans-serif] text-center">
+            <div className="max-w-7xl mx-auto">
+                {/* Header */}
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-red-600 mb-4 font-[Montserrat,sans-serif]">
                         Our Products
                     </h1>
-                    <p className="text-center text-(--foreground) mb-12 text-lg">
+                    <p className="text-center text-(--foreground) text-lg">
                         Explore our complete range of flexible packaging solutions
                     </p>
+                </div>
 
-                    {/* Products Grid */}
+                {/* Type Tabs */}
+                <div className="flex flex-wrap gap-3 justify-center mb-12">
+                    {productTypes.map((type) => (
+                        <button
+                            key={type.id}
+                            onClick={() => setActiveType(type.slug)}
+                            className={`px-6 py-3 rounded-full font-semibold transition-all duration-200 ${
+                                activeType === type.slug
+                                    ? 'bg-red-600 text-white shadow-lg'
+                                    : 'bg-white text-black border-2 border-red-600 hover:bg-red-50'
+                            }`}
+                        >
+                            {type.name}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Current Type Description */}
+                {currentType && currentType.description && (
+                    <div className="text-center mb-8 bg-white p-6 rounded-lg border-l-4 border-red-600">
+                        <p className="text-(--foreground) text-base">
+                            {currentType.description}
+                        </p>
+                    </div>
+                )}
+
+                {/* Products Grid */}
+                {currentType && currentType.products.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {products.map((product) => (
+                        {currentType.products.map((product) => (
                             <Link
                                 key={product.id}
                                 href={`/products/${product.slug}`}
@@ -86,7 +92,9 @@ export default function ProductsIndex({ initialProducts }: { initialProducts: Pa
 
                                     {/* Content Container */}
                                     <div className="flex-1 flex flex-col p-5">
-                                        <h3 className="font-bold text-lg mb-2">{product.title}</h3>
+                                        <h3 className="font-bold text-lg mb-2">
+                                            {product.title}
+                                        </h3>
                                         <p className="text-sm opacity-80 mb-4 flex-1 line-clamp-3">
                                             {product.description}
                                         </p>
@@ -98,22 +106,15 @@ export default function ProductsIndex({ initialProducts }: { initialProducts: Pa
                             </Link>
                         ))}
                     </div>
-
-                    {/* Loading indicator and observer target */}
-                    <div ref={observerTarget} className="mt-12 text-center">
-                        {isLoading && (
-                            <div className="flex justify-center items-center space-x-2">
-                                <div className="w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
-                                <div className="w-3 h-3 bg-red-600 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
-                                <div className="w-3 h-3 bg-red-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                            </div>
-                        )}
-                        {!nextPageUrl && products.length > 0 && (
-                            <p className="text-(--foreground) text-lg">All products loaded</p>
-                        )}
+                ) : (
+                    <div className="text-center py-12">
+                        <p className="text-(--foreground) text-lg">
+                            No products available for this type yet.
+                        </p>
                     </div>
-                </div>
+                )}
             </div>
+        </div>
     );
 }
 
