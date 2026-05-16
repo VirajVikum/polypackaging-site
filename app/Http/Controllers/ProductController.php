@@ -9,11 +9,24 @@ use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $productTypes = ProductType::with(['products' => function ($query) {
-            $query->paginate(12);
-        }])->get();
+        $selectedTypeSlug = $request->query('type');
+        
+        $productTypes = ProductType::orderBy('name')->get();
+        
+        $selectedType = null;
+        $selectedProducts = collect();
+        
+        if ($selectedTypeSlug) {
+            $selectedType = $productTypes->firstWhere('slug', $selectedTypeSlug);
+            if ($selectedType) {
+                $selectedProducts = $selectedType->products()->get();
+            }
+        } else if ($productTypes->count() > 0) {
+            $selectedType = $productTypes->first();
+            $selectedProducts = $selectedType->products()->get();
+        }
 
         $groupedProducts = $productTypes->mapWithKeys(function ($type) {
             return [$type->slug => [
@@ -21,12 +34,18 @@ class ProductController extends Controller
                 'name' => $type->name,
                 'slug' => $type->slug,
                 'description' => $type->description,
-                'products' => $type->products,
             ]];
         });
 
         return Inertia::render('Products/Index', [
             'groupedProducts' => $groupedProducts,
+            'selectedType' => $selectedType ? [
+                'id' => $selectedType->id,
+                'name' => $selectedType->name,
+                'slug' => $selectedType->slug,
+                'description' => $selectedType->description,
+            ] : null,
+            'selectedProducts' => $selectedProducts,
         ]);
     }
 
@@ -50,5 +69,12 @@ class ProductController extends Controller
         $products = Product::paginate(12, ['*'], 'page', $page);
 
         return response()->json($products);
+    }
+
+    public function types()
+    {
+        $types = ProductType::select('id', 'name', 'slug')->orderBy('name')->get();
+
+        return response()->json($types);
     }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 
@@ -17,64 +17,34 @@ interface ProductType {
     name: string;
     slug: string;
     description: string;
-    products: Product[];
 }
 
 interface Props {
     groupedProducts: Record<string, ProductType>;
+    selectedType: ProductType | null;
+    selectedProducts: Product[];
 }
 
-export default function ProductsIndex({ groupedProducts }: Props) {
-    const [activeType, setActiveType] = useState<string>(
-        Object.keys(groupedProducts)[0] || ''
-    );
-
-    const productTypes = Object.values(groupedProducts);
-    const currentType = groupedProducts[activeType];
-
+export default function ProductsIndex({ groupedProducts, selectedType, selectedProducts }: Props) {
     return (
         <div className="min-h-screen bg-(--background) px-4 sm:px-6 md:px-8 py-12">
             <div className="max-w-7xl mx-auto">
-                {/* Header */}
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-red-600 mb-4 font-[Montserrat,sans-serif]">
-                        Our Products
-                    </h1>
-                    <p className="text-center text-(--foreground) text-lg">
-                        Explore our complete range of flexible packaging solutions
-                    </p>
-                </div>
-
-                {/* Type Tabs */}
-                <div className="flex flex-wrap gap-3 justify-center mb-12">
-                    {productTypes.map((type) => (
-                        <button
-                            key={type.id}
-                            onClick={() => setActiveType(type.slug)}
-                            className={`px-6 py-3 rounded-full font-semibold transition-all duration-200 ${
-                                activeType === type.slug
-                                    ? 'bg-red-600 text-white shadow-lg'
-                                    : 'bg-white text-black border-2 border-red-600 hover:bg-red-50'
-                            }`}
-                        >
-                            {type.name}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Current Type Description */}
-                {currentType && currentType.description && (
+                {/* Selected Type Description */}
+                {selectedType && (
                     <div className="text-center mb-8 bg-white p-6 rounded-lg border-l-4 border-red-600">
+                        <h2 className="text-4xl font-bold text-red-600 mb-2">
+                            {selectedType.name}
+                        </h2>
                         <p className="text-(--foreground) text-base">
-                            {currentType.description}
+                            {selectedType.description || 'Explore our range of products'}
                         </p>
                     </div>
                 )}
 
                 {/* Products Grid */}
-                {currentType && currentType.products.length > 0 ? (
+                {selectedProducts.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {currentType.products.map((product) => (
+                        {selectedProducts.map((product) => (
                             <Link
                                 key={product.id}
                                 href={`/products/${product.slug}`}
@@ -109,7 +79,7 @@ export default function ProductsIndex({ groupedProducts }: Props) {
                 ) : (
                     <div className="text-center py-12">
                         <p className="text-(--foreground) text-lg">
-                            No products available for this type yet.
+                            No products available for this category.
                         </p>
                     </div>
                 )}

@@ -1,6 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import React, { useEffect, useState } from 'react';
-import { Menu, Youtube, Facebook, Linkedin } from 'lucide-react';
+import { Menu, Youtube, Facebook, Linkedin, ChevronDown } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -58,6 +58,9 @@ const rightNavItems: NavItem[] = [
 
 export function AppHeader({ breadcrumbs = [] }: Props) {
         const [showNav, setShowNav] = useState(true);
+        const [productTypes, setProductTypes] = useState<Array<{ id: number; name: string; slug: string }>>([]);
+        const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
+        const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
         const lastScrollY = React.useRef(window.scrollY);
         const lastDirection = React.useRef<'up' | 'down' | null>(null);
         const lastToggleY = React.useRef(window.scrollY);
@@ -97,6 +100,13 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
             window.addEventListener('scroll', onScroll);
             return () => window.removeEventListener('scroll', onScroll);
         }, [showNav]);
+
+        useEffect(() => {
+            fetch('/products/api/types')
+                .then(res => res.json())
+                .then(data => setProductTypes(data))
+                .catch(err => console.error('Failed to fetch product types:', err));
+        }, []);
     const page = usePage();
     const { auth } = page.props;
     const getInitials = useInitials();
@@ -142,7 +152,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                     <div className="flex h-20 items-center w-full px-4 md:px-8 transition-all duration-300">
                         {/* Mobile Menu */}
                         <div className="lg:hidden">
-                            <Sheet>
+                            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                                 <SheetTrigger asChild>
                                     <Button
                                         variant="ghost"
@@ -166,16 +176,47 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                         <div className="flex h-full flex-col justify-between text-sm">
                                             <div className="flex flex-col space-y-4">
                                                 {mainNavItems.map((item) => (
-                                                    <Link
-                                                        key={item.title}
-                                                        href={item.href}
-                                                        className="flex items-center space-x-2 font-medium"
-                                                    >
-                                                        {item.icon && (
-                                                            <item.icon className="h-5 w-5" />
+                                                    <div key={item.title}>
+                                                        {item.title === 'Products' ? (
+                                                            <div className="flex flex-col space-y-2">
+                                                                <Link
+                                                                    href={item.href}
+                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                    className="flex items-center space-x-2 font-medium"
+                                                                >
+                                                                    {item.icon && (
+                                                                        <item.icon className="h-5 w-5" />
+                                                                    )}
+                                                                    <span>{item.title}</span>
+                                                                </Link>
+                                                                {productTypes.length > 0 && (
+                                                                    <div className="flex flex-col space-y-2 pl-4">
+                                                                        {productTypes.map((type) => (
+                                                                            <Link
+                                                                                key={type.id}
+                                                                                href={`/products?type=${type.slug}`}
+                                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                                                className="flex items-center space-x-2 text-sm text-gray-600 hover:text-red-600"
+                                                                            >
+                                                                                <span>{type.name}</span>
+                                                                            </Link>
+                                                                        ))}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        ) : (
+                                                            <Link
+                                                                href={item.href}
+                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                                className="flex items-center space-x-2 font-medium"
+                                                            >
+                                                                {item.icon && (
+                                                                    <item.icon className="h-5 w-5" />
+                                                                )}
+                                                                <span>{item.title}</span>
+                                                            </Link>
                                                         )}
-                                                        <span>{item.title}</span>
-                                                    </Link>
+                                                    </div>
                                                 ))}
                                             </div>
 
@@ -224,22 +265,56 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                             key={index}
                                             className="relative flex h-full items-center"
                                         >
-                                            <Link
-                                                href={item.href}
-                                                className={cn(
-                                                    'px-4 py-2 rounded-lg font-medium transition-all duration-200 text-white',
-                                                    whenCurrentUrl(
-                                                        item.href,
-                                                        'bg-white/10 text-white shadow-inner',
-                                                    ),
-                                                    'hover:bg-red-100 hover:text-red-600 focus-visible:ring-2 focus-visible:ring-red-600',
-                                                )}
-                                            >
-                                                {item.icon && (
-                                                    <item.icon className="mr-2 h-4 w-4" />
-                                                )}
-                                                {item.title}
-                                            </Link>
+                                            {item.title === 'Products' && productTypes.length > 0 ? (
+                                                <DropdownMenu open={isProductDropdownOpen} onOpenChange={setIsProductDropdownOpen}>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <button
+                                                            className={cn(
+                                                                'px-4 py-2 rounded-lg font-medium transition-all duration-200 text-white flex items-center gap-1',
+                                                                whenCurrentUrl(
+                                                                    item.href,
+                                                                    'bg-white/10 text-white shadow-inner',
+                                                                ),
+                                                                'hover:bg-red-100 hover:text-red-600 focus-visible:ring-2 focus-visible:ring-red-600',
+                                                            )}
+                                                        >
+                                                            {item.title}
+                                                            <ChevronDown className="h-4 w-4" />
+                                                        </button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="start" className="w-48">
+                                                        <div>
+                                                            {productTypes.map((type) => (
+                                                                <Link
+                                                                    key={type.id}
+                                                                    href={`/products?type=${type.slug}`}
+                                                                    onClick={() => setIsProductDropdownOpen(false)}
+                                                                    className="block px-3 py-2 rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                                >
+                                                                    {type.name}
+                                                                </Link>
+                                                            ))}
+                                                        </div>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            ) : (
+                                                <Link
+                                                    href={item.href}
+                                                    className={cn(
+                                                        'px-4 py-2 rounded-lg font-medium transition-all duration-200 text-white',
+                                                        whenCurrentUrl(
+                                                            item.href,
+                                                            'bg-white/10 text-white shadow-inner',
+                                                        ),
+                                                        'hover:bg-red-100 hover:text-red-600 focus-visible:ring-2 focus-visible:ring-red-600',
+                                                    )}
+                                                >
+                                                    {item.icon && (
+                                                        <item.icon className="mr-2 h-4 w-4" />
+                                                    )}
+                                                    {item.title}
+                                                </Link>
+                                            )}
                                             {isCurrentUrl(item.href) && (
                                                 <div className="absolute bottom-0 left-2 right-2 h-1 rounded bg-red-600"></div>
                                             )}
