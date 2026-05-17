@@ -58,7 +58,7 @@ const rightNavItems: NavItem[] = [
 
 export function AppHeader({ breadcrumbs = [] }: Props) {
         const [showNav, setShowNav] = useState(true);
-        const [productTypes, setProductTypes] = useState<Array<{ id: number; name: string; slug: string }>>([]);
+        const [productTypes, setProductTypes] = useState<Array<{ id: number; name: string; slug: string; firstProductSlug?: string }>>([]);
         const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
         const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
         const lastScrollY = React.useRef(window.scrollY);
@@ -104,7 +104,10 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
         useEffect(() => {
             fetch('/products/api/types')
                 .then(res => res.json())
-                .then(data => setProductTypes(data))
+                .then(data => {
+                    console.log('Product types API response:', data);
+                    setProductTypes(data);
+                })
                 .catch(err => console.error('Failed to fetch product types:', err));
         }, []);
     const page = usePage();
@@ -194,7 +197,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                                                         {productTypes.map((type) => (
                                                                             <Link
                                                                                 key={type.id}
-                                                                                href={`/products?type=${type.slug}`}
+                                                                                href={type.firstProductSlug ? `/products/${type.firstProductSlug}` : `/products?type=${type.slug}`}
                                                                                 onClick={() => setIsMobileMenuOpen(false)}
                                                                                 className="flex items-center space-x-2 text-sm text-gray-600 hover:text-red-600"
                                                                             >
@@ -287,7 +290,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                                             {productTypes.map((type) => (
                                                                 <Link
                                                                     key={type.id}
-                                                                    href={`/products?type=${type.slug}`}
+                                                                    href={type.firstProductSlug ? `/products/${type.firstProductSlug}` : `/products?type=${type.slug}`}
                                                                     onClick={() => setIsProductDropdownOpen(false)}
                                                                     className="block px-3 py-2 rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
                                                                 >

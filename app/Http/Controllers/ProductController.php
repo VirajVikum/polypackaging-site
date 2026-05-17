@@ -73,7 +73,16 @@ class ProductController extends Controller
 
     public function types()
     {
-        $types = ProductType::select('id', 'name', 'slug')->orderBy('name')->get();
+        $types = ProductType::with(['products' => function ($query) {
+            $query->select('id', 'slug', 'product_type_id')->orderBy('id')->limit(1);
+        }])->select('id', 'name', 'slug')->orderBy('name')->get();
+
+        $types = $types->map(fn ($type) => [
+            'id' => $type->id,
+            'name' => $type->name,
+            'slug' => $type->slug,
+            'firstProductSlug' => $type->products->first()?->slug ?? null,
+        ])->toArray();
 
         return response()->json($types);
     }
