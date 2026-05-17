@@ -143,14 +143,14 @@ export default function Home({ productTypes = [] }: Props) {
         )}
         
         {/* View All Products Button */}
-        <div className="flex justify-center mt-10">
+        {/* <div className="flex justify-center mt-10">
           <Link
             href="/products"
             className="px-8 py-3 rounded-full bg-red-600 text-white font-semibold shadow hover:bg-red-700 transition"
           >
             View All Products
           </Link>
-        </div>
+        </div> */}
       </section>
 
       {/* Section 4: Why Choose Us (Paragraph with Show More) */}
