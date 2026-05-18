@@ -128,7 +128,7 @@ export default function BranchShow({ branch, otherBranches }: Props) {
                         <div className="w-full rounded-2xl overflow-hidden shadow-lg border-2 border-red-600">
                             <MapEmbed latitude={branch.latitude} longitude={branch.longitude} />
                         </div>
-                        <div className="mt-4 text-center">
+                        {/* <div className="mt-4 text-center">
                             <a
                                 href={`https://www.openstreetmap.org/?mlat=${branch.latitude}&mlon=${branch.longitude}&zoom=15`}
                                 target="_blank"
@@ -137,7 +137,7 @@ export default function BranchShow({ branch, otherBranches }: Props) {
                             >
                                 View on OpenStreetMap
                             </a>
-                        </div>
+                        </div> */}
                     </div>
                 )}
             </div>
