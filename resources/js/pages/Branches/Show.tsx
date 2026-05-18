@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 
@@ -11,6 +11,8 @@ interface Branch {
     email: string;
     image?: string;
     slug: string;
+    latitude?: number;
+    longitude?: number;
 }
 
 interface Props {
@@ -117,24 +119,100 @@ export default function BranchShow({ branch, otherBranches }: Props) {
                     )}
                 </div>
 
-                {/* CTA Section */}
-                {/* <div className="mt-16 pt-12 border-t border-(--card) bg-(--card) rounded-2xl p-8 text-center">
-                    <h2 className="text-2xl font-bold text-(--foreground) mb-4">
-                        Get in Touch
-                    </h2>
-                    <p className="text-(--foreground) mb-6 text-lg">
-                        Visit us or contact us to learn more about our services and products.
-                    </p>
-                    <Link
-                        href="/contact"
-                        className="inline-block px-8 py-3 rounded-full bg-red-600 text-white font-semibold shadow hover:bg-red-700 transition"
-                    >
-                        Contact Us
-                    </Link>
-                </div> */}
+                {/* Map Section */}
+                {branch.latitude && branch.longitude && (
+                    <div className="mt-16 pt-12 border-t border-(--card)">
+                        <h2 className="text-2xl font-bold text-red-600 mb-6 font-[Montserrat,sans-serif]">
+                            Location
+                        </h2>
+                        <div className="w-full rounded-2xl overflow-hidden shadow-lg border-2 border-red-600">
+                            <MapEmbed latitude={branch.latitude} longitude={branch.longitude} />
+                        </div>
+                        <div className="mt-4 text-center">
+                            <a
+                                href={`https://www.openstreetmap.org/?mlat=${branch.latitude}&mlon=${branch.longitude}&zoom=15`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-red-600 hover:text-red-700 font-semibold transition"
+                            >
+                                View on OpenStreetMap
+                            </a>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
+}
+
+interface MapEmbedProps {
+    latitude: number;
+    longitude: number;
+}
+
+function MapEmbed({ latitude, longitude }: MapEmbedProps) {
+    const mapContainer = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!mapContainer.current) return;
+
+        // Load Leaflet CSS
+        if (!document.getElementById('leaflet-css')) {
+            const link = document.createElement('link');
+            link.id = 'leaflet-css';
+            link.rel = 'stylesheet';
+            link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+            document.head.appendChild(link);
+        }
+
+        // Load Leaflet JS
+        if (!(window as any).L) {
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+            script.onload = () => {
+                initMap();
+            };
+            document.body.appendChild(script);
+        } else {
+            initMap();
+        }
+
+        function initMap() {
+            const L = (window as any).L;
+            if (!L || !mapContainer.current) return;
+
+            // Clear previous map
+            mapContainer.current.innerHTML = '<div id="map-inner" style="width: 100%; height: 100%;"></div>';
+
+            const mapElement = mapContainer.current.querySelector('#map-inner');
+            if (!mapElement) return;
+
+            const map = L.map(mapElement).setView([latitude, longitude], 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors',
+                maxZoom: 19,
+            }).addTo(map);
+
+            // Add marker
+            L.marker([latitude, longitude], {
+                icon: L.icon({
+                    iconUrl:
+                        'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                    shadowUrl:
+                        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41],
+                }),
+            })
+                .addTo(map)
+                .bindPopup('Branch Location');
+        }
+    }, [latitude, longitude]);
+
+    return <div ref={mapContainer} style={{ width: '100%', height: '400px' }} />;
 }
 
 BranchShow.layout = AppLayout;

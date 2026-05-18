@@ -17,5 +17,7 @@ class Branch extends Model
         'contact2',
         'email',
         'image',
+        'latitude',
+        'longitude',
     ];
 }
