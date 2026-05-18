@@ -59,7 +59,9 @@ const rightNavItems: NavItem[] = [
 export function AppHeader({ breadcrumbs = [] }: Props) {
         const [showNav, setShowNav] = useState(true);
         const [productTypes, setProductTypes] = useState<Array<{ id: number; name: string; slug: string; firstProductSlug?: string }>>([]);
+        const [branches, setBranches] = useState<Array<{ id: number; name: string; slug: string }>>([]);
         const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
+        const [isBranchesDropdownOpen, setIsBranchesDropdownOpen] = useState(false);
         const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
         const lastScrollY = React.useRef(window.scrollY);
         const lastDirection = React.useRef<'up' | 'down' | null>(null);
@@ -109,6 +111,14 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                     setProductTypes(data);
                 })
                 .catch(err => console.error('Failed to fetch product types:', err));
+
+            fetch('/branches/api/list')
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Branches API response:', data);
+                    setBranches(data);
+                })
+                .catch(err => console.error('Failed to fetch branches:', err));
         }, []);
     const page = usePage();
     const { auth } = page.props;
@@ -207,6 +217,33 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                                                     </div>
                                                                 )}
                                                             </div>
+                                                        ) : item.title === 'Branches' ? (
+                                                            <div className="flex flex-col space-y-2">
+                                                                <Link
+                                                                    href={item.href}
+                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                    className="flex items-center space-x-2 font-medium"
+                                                                >
+                                                                    {item.icon && (
+                                                                        <item.icon className="h-5 w-5" />
+                                                                    )}
+                                                                    <span>{item.title}</span>
+                                                                </Link>
+                                                                {branches.length > 0 && (
+                                                                    <div className="flex flex-col space-y-2 pl-4">
+                                                                        {branches.map((branch) => (
+                                                                            <Link
+                                                                                key={branch.id}
+                                                                                href={`/branches/${branch.slug}`}
+                                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                                                className="flex items-center space-x-2 text-sm text-gray-600 hover:text-red-600"
+                                                                            >
+                                                                                <span>{branch.name}</span>
+                                                                            </Link>
+                                                                        ))}
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         ) : (
                                                             <Link
                                                                 href={item.href}
@@ -295,6 +332,38 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                                                     className="block px-3 py-2 rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
                                                                 >
                                                                     {type.name}
+                                                                </Link>
+                                                            ))}
+                                                        </div>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            ) : item.title === 'Branches' && branches.length > 0 ? (
+                                                <DropdownMenu open={isBranchesDropdownOpen} onOpenChange={setIsBranchesDropdownOpen}>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <button
+                                                            className={cn(
+                                                                'px-4 py-2 rounded-lg font-medium transition-all duration-200 text-white flex items-center gap-1',
+                                                                whenCurrentUrl(
+                                                                    item.href,
+                                                                    'bg-white/10 text-white shadow-inner',
+                                                                ),
+                                                                'hover:bg-red-100 hover:text-red-600 focus-visible:ring-2 focus-visible:ring-red-600',
+                                                            )}
+                                                        >
+                                                            {item.title}
+                                                            <ChevronDown className="h-4 w-4" />
+                                                        </button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="start" className="w-48">
+                                                        <div>
+                                                            {branches.map((branch) => (
+                                                                <Link
+                                                                    key={branch.id}
+                                                                    href={`/branches/${branch.slug}`}
+                                                                    onClick={() => setIsBranchesDropdownOpen(false)}
+                                                                    className="block px-3 py-2 rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                                >
+                                                                    {branch.name}
                                                                 </Link>
                                                             ))}
                                                         </div>

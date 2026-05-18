@@ -110,7 +110,7 @@ export default function ProductShow({
                         <div className="flex items-center justify-center">
                             <div className="w-full bg-gray-200 rounded-2xl overflow-hidden shadow-lg border-2 border-red-600">
                                 <img
-                                    src={product.image}
+                                    src={product.image.startsWith('/') ? product.image : `/${product.image}`}
                                     alt={product.title}
                                     className="w-full h-auto object-cover min-h-[350px] max-h-[350px]"
                                 />
